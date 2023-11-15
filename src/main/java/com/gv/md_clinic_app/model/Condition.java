@@ -3,10 +3,14 @@ package com.gv.md_clinic_app.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 @Entity
+@Table(name = "conditions")
 public class Condition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

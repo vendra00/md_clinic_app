@@ -1,12 +1,12 @@
 package com.gv.md_clinic_app.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -34,6 +34,23 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("admin")
+                .password(passwordEncoder.encode("adminPass"))
+                .roles("ADMIN")
+                .and()
+                .withUser("doctor")
+                .password(passwordEncoder.encode("doctorPass"))
+                .roles("DOCTOR")
+                .and()
+                .withUser("patient")
+                .password(passwordEncoder.encode("patientPass"))
+                .roles("PATIENT");
     }
 }
 
