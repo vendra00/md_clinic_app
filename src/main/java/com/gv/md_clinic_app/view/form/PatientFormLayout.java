@@ -110,7 +110,6 @@ public class PatientFormLayout extends VerticalLayout {
         return capitalized.toString();
     }
 
-
     private String getBloodTypeLabel(BloodType bloodType) {
         return bloodType.getDisplayString();
     }
