@@ -23,6 +23,7 @@ public class PatientDto {
     private AddressDto address;
     private MedicalHistoryDto medicalHistory; // Detailed for doctors, summary or omitted for others
     private Set<ConditionDto> conditions; // Detailed for doctors and admin, summary or omitted for patients
+    private int historyId;
     private BloodType bloodType;
     private Choice isOrganDonor;
     private LocalDate dob;
@@ -32,11 +33,13 @@ public class PatientDto {
     public void hideSensitiveDataForPatients() {
         this.medicalHistory = null;
         this.conditions = null;
+        this.historyId = 0;
     }
 
     public void hideSensitiveDataForAdmins() {
         this.medicalHistory = null;
         this.phone = null;
         this.address = null;
+        this.historyId = 0;
     }
 }

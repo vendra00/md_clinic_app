@@ -20,6 +20,7 @@ public class PatientConverter {
         dto.setAddress(AddressConverter.convertToDto(patient.getAddress()));
         dto.setMedicalHistory(MedicalHistoryConverter.convertToDto(patient.getMedicalHistory()));
         dto.setConditions(ConditionConverter.convertToDto(patient.getConditions()));
+        dto.setHistoryId(patient.getHistoryId());
         dto.setBloodType(patient.getBloodType());
         dto.setIsOrganDonor(patient.getIsOrganDonor());
         dto.setDob(patient.getDob());
@@ -55,6 +56,7 @@ public class PatientConverter {
         patient.setEmail(patientDto.getEmail());
         patient.setPhone(patientDto.getPhone());
         patient.setAddress(AddressConverter.convertToEntity(patientDto.getAddress()));
+        patient.setHistoryId(patientDto.getHistoryId());
         patient.setMedicalHistory(MedicalHistoryConverter.convertToEntity(patientDto.getMedicalHistory()));
         patient.setConditions(ConditionConverter.convertToEntity(patientDto.getConditions()));
         patient.setBloodType(patientDto.getBloodType());

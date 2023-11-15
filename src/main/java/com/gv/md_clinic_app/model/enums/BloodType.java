@@ -1,5 +1,8 @@
 package com.gv.md_clinic_app.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum BloodType {
     A_POSITIVE("A+"),
     A_NEGATIVE("A-"),
@@ -8,7 +11,12 @@ public enum BloodType {
     AB_POSITIVE("AB+"),
     AB_NEGATIVE("AB-"),
     O_POSITIVE("O+"),
-    O_NEGATIVE("O-");
+    O_NEGATIVE("O-"),
+    UNKNOWN("Unknown");
 
-    BloodType(String bloodType) {}
+    private final String displayString;
+
+    BloodType(String displayString) {
+        this.displayString = displayString;
+    }
 }

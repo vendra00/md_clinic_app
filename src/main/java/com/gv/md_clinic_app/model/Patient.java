@@ -32,6 +32,7 @@ public class Patient extends Person {
     )
     @ToString.Exclude
     private Set<Condition> conditions = new HashSet<>();
+    private int historyId;
     private BloodType bloodType;
     private Choice isOrganDonor;
     @Past

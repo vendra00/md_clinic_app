@@ -1,8 +1,16 @@
 package com.gv.md_clinic_app.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Choice {
     YES("Yes"),
-    NO("No");
+    NO("No"),
+    UNKNOWN("Unknown");
 
-    Choice(String choice) {}
+    private final String displayString;
+
+    Choice(String displayString) {
+        this.displayString = displayString;
+    }
 }
