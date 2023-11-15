@@ -1,5 +1,6 @@
 package com.gv.md_clinic_app.config;
 
+import com.gv.md_clinic_app.model.enums.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,15 +43,15 @@ public class SecurityConfig {
                 .inMemoryAuthentication()
                 .withUser("admin")
                 .password(passwordEncoder.encode("adminPass"))
-                .roles("ADMIN")
+                .roles(UserRole.ADMIN.name())
                 .and()
                 .withUser("doctor")
                 .password(passwordEncoder.encode("doctorPass"))
-                .roles("DOCTOR")
+                .roles(UserRole.DOCTOR.name())
                 .and()
                 .withUser("patient")
                 .password(passwordEncoder.encode("patientPass"))
-                .roles("PATIENT");
+                .roles(UserRole.PATIENT.name());
     }
 }
 

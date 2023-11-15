@@ -3,6 +3,7 @@ package com.gv.md_clinic_app.controller;
 import com.gv.md_clinic_app.model.Patient;
 import com.gv.md_clinic_app.service.patient.AdminPatientService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +18,7 @@ public class AdminController {
 
     private final AdminPatientService patientService;
 
+    @Autowired
     public AdminController(AdminPatientService patientService) {
         this.patientService = patientService;
     }
