@@ -6,10 +6,12 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 @Route("")
+@PageTitle("MD Clinic")
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
     public MainLayout() {

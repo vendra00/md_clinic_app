@@ -1,20 +1,20 @@
 package com.gv.md_clinic_app.view.form;
 
 import com.gv.md_clinic_app.model.dto.PatientDto;
-import com.gv.md_clinic_app.model.enums.BloodType;
-import com.gv.md_clinic_app.model.enums.Choice;
-import com.gv.md_clinic_app.model.enums.Gender;
-import com.gv.md_clinic_app.model.enums.Regex;
+import com.gv.md_clinic_app.model.enums.*;
 import com.gv.md_clinic_app.view.form.utils.PatientFormUtils;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -44,61 +44,127 @@ public class PatientFormLayout extends VerticalLayout {
     private final TextField historyId = new TextField("History Number", "20201587");
 
     //Secondary Patient Information
+    private final TextField street = new TextField("Street", "123 Main St");
+    private final TextField city = new TextField("City", "Barcelona");
+    private final ComboBox<States> state = new ComboBox<>("State");
+    private final TextField zipCode = new TextField("zipCode", "08001");
+    private final TextField emergencyContactFirstName = new TextField("First Name", "John");
+    private final TextField emergencyContactLastName = new TextField("Last Name", "Doe");
+    private final TextField emergencyContactPhone = new TextField("Phone", "+(034) 555-555-555");
+
+    //Basic Patient MD Information
     private final ComboBox<BloodType> bloodType = new ComboBox<>("Blood Type");
     private final ComboBox<Choice> isOrganDonor = new ComboBox<>("Organ Donor");
     private final ComboBox<Gender> gender = new ComboBox<>("Gender");
-    private final TextField emergencyContactName = new TextField("Emergency Contact Name");
-    //private final TextField address = new TextField("Address");
     private final Button saveButton = new Button("Register");
     private final Binder<PatientDto> binder = new Binder<>(PatientDto.class);
 
     @Autowired
     public PatientFormLayout(RestTemplate restTemplate) {
         log.info("PatientFormLayout constructor called");
-
         this.restTemplate = restTemplate;
 
         // Create an accordion
         Accordion accordion = new Accordion();
 
-        // Basic Info Section
-        FormLayout basicInfoFormLayout = new FormLayout();
-        basicInfoFormLayout.add(firstName, lastName, email, phone, dob);
-        AccordionPanel basicInfoPanel = accordion.add("Basic Info", basicInfoFormLayout);
-        basicInfoPanel.addThemeVariants(DetailsVariant.SMALL); // Apply the small variant
+        // Set the accordion's
+        accordeonSectionLayoutSetUp(accordion);
 
-        // Secondary Info Section
-        FormLayout secondaryInfoFormLayout = new FormLayout();
-        secondaryInfoFormLayout.add(historyId, bloodType, isOrganDonor, gender, emergencyContactName);
-        AccordionPanel secondaryInfoPanel = accordion.add("Secondary Info", secondaryInfoFormLayout);
-        secondaryInfoPanel.addThemeVariants(DetailsVariant.SMALL); // Apply the small variant
+        // Create a FlexLayout for the button
+        FlexLayout buttonLayout = new FlexLayout();
+        buttonLayout.setSizeFull(); // Take the full size of the parent
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER); // Center horizontally
+        buttonLayout.setAlignItems(FlexComponent.Alignment.CENTER); // Center vertically
+        buttonLayout.add(saveButton);
 
         requiredFieldsSetUp();
         fieldsFeedback();
         fieldsValitations();
         comboBoxValuesSetUp();
+        saveBtnConfigSetUp();
 
-        // Add components to the layout
-        add(accordion, saveButton); // Add the accordion and save button to the PatientFormLayout
+        // Create a FlexLayout for the form and accordion
+        FlexLayout formLayout = new FlexLayout();
+        formLayout.setFlexDirection(FlexLayout.FlexDirection.COLUMN); // Stack children vertically
+        formLayout.setAlignItems(FlexComponent.Alignment.CENTER); // Center children horizontally
 
-        // Configure the save button
-        saveButton.addClickListener(e -> registerPatient());
+        // Add the accordion and button to the form layout
+        formLayout.add(accordion, buttonLayout);
+
+        // Add the form layout to the main layout
+        add(formLayout);
 
         // Bind fields to the binder
         binder.bindInstanceFields(this);
     }
+    private void accordeonSectionLayoutSetUp(Accordion accordion) {
+        // Basic Info Section
+        basicPatienSectionSetUp(accordion);
+        // Patient Secondary Info Section
+        secondaryPatientSectionSetUp(accordion);
+        // Basic Patient MD Info Section
+        basicPatienMdSectionSetUp(accordion);
+    }
+    private void basicPatienMdSectionSetUp(Accordion accordion) {
+        FormLayout basicPatientMdInfoLayout = new FormLayout();
+        basicPatientMdInfoLayout.add(historyId, bloodType, isOrganDonor, gender);
+        AccordionPanel basicPatientMdInfoPanel = accordion.add("Basic Medical Patient Information", basicPatientMdInfoLayout);
+        basicPatientMdInfoPanel.setTooltipText("Basic medical patient information");
+        basicPatientMdInfoPanel.addThemeVariants(DetailsVariant.FILLED);
+    }
+    private void secondaryPatientSectionSetUp(Accordion accordion) {
+        FormLayout secondaryPatientInfoFormLayout = new FormLayout();
+        secondaryPatientInfoFormLayout.add(street, city, state, zipCode, emergencyContactFirstName, emergencyContactLastName, emergencyContactPhone);
+        AccordionPanel secondaryPatientInfoPanel = accordion.add("Secondary Patient Information", secondaryPatientInfoFormLayout);
+        secondaryPatientInfoPanel.setTooltipText("Secondary patient basic information");
+        secondaryPatientInfoPanel.addThemeVariants(DetailsVariant.FILLED);
+    }
+    private void basicPatienSectionSetUp(Accordion accordion) {
+        FormLayout basicInfoFormLayout = new FormLayout();
+        basicInfoFormLayout.add(firstName, lastName, email, phone, dob);
+        AccordionPanel basicInfoPanel = accordion.add("Basic Patient Information", basicInfoFormLayout);
+        basicInfoPanel.setTooltipText("Basic patient basic information");
+        basicInfoPanel.addThemeVariants(DetailsVariant.FILLED);
+    }
+    private void saveBtnConfigSetUp() {
+        saveButton.addClickListener(e -> registerPatient());
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    }
     private void fieldsValitations() {
+        // Validate the basic patient fields
+        validateBasicPatientFields();
+
+        // Validate the secondary patient fields
+        validateSecondaryPatientFields();
+    }
+    private void validateSecondaryPatientFields() {
+        patientFormUtils.fNameAndLNameValidators(emergencyContactFirstName, emergencyContactLastName);
+        patientFormUtils.phoneValidator(emergencyContactPhone);
+    }
+    private void validateBasicPatientFields() {
         patientFormUtils.fNameAndLNameValidators(firstName, lastName);
         patientFormUtils.dateFormatter(dob);
         patientFormUtils.phoneValidator(phone);
         patientFormUtils.emailToLowerCase(email);
     }
     private void requiredFieldsSetUp() {
+        //Basic Patient Information
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
         email.setRequiredIndicatorVisible(true);
         phone.setRequiredIndicatorVisible(true);
         dob.setRequiredIndicatorVisible(true);
+
+        //Secondary Patient Information
+        street.setRequiredIndicatorVisible(false);
+        city.setRequiredIndicatorVisible(false);
+        state.setRequiredIndicatorVisible(false);
+        zipCode.setRequiredIndicatorVisible(false);
+        emergencyContactFirstName.setRequiredIndicatorVisible(false);
+        emergencyContactLastName.setRequiredIndicatorVisible(false);
+        emergencyContactPhone.setRequiredIndicatorVisible(false);
+
+        //Basic Patient MD Information
         bloodType.setRequiredIndicatorVisible(true);
         isOrganDonor.setRequiredIndicatorVisible(true);
         historyId.setRequiredIndicatorVisible(true);
@@ -150,14 +216,21 @@ public class PatientFormLayout extends VerticalLayout {
                 .bind(PatientDto::getHistoryId, PatientDto::setHistoryId);
     }
     private void comboBoxValuesSetUp() {
+        // Set the values of the combo boxes
         bloodType.setItems(BloodType.values());
         bloodType.setItemLabelGenerator(BloodType::getDisplayString);
 
+        // Set the Organ Donor values of the combo boxes
         isOrganDonor.setItems(Choice.values());
         isOrganDonor.setItemLabelGenerator(Choice::getDisplayString);
 
+        // Set the Gender values of the combo boxes
         gender.setItems(Gender.values());
         gender.setItemLabelGenerator(Gender::getDisplayString);
+
+        // Set the States values of the combo boxes
+        state.setItems(States.values());
+        state.setItemLabelGenerator(States::getDisplayString);
     }
     private void registerPatient() {
         log.info("Register patient button clicked");
