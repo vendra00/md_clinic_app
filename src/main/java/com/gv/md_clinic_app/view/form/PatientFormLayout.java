@@ -68,7 +68,7 @@ public class PatientFormLayout extends VerticalLayout {
         Accordion accordion = new Accordion();
 
         // Set the accordion's
-        accordeonSectionLayoutSetUp(accordion);
+        accordionSectionLayoutSetUp(accordion);
 
         // Create a FlexLayout for the button
         FlexLayout buttonLayout = new FlexLayout();
@@ -97,7 +97,7 @@ public class PatientFormLayout extends VerticalLayout {
         // Bind fields to the binder
         binder.bindInstanceFields(this);
     }
-    private void accordeonSectionLayoutSetUp(Accordion accordion) {
+    private void accordionSectionLayoutSetUp(Accordion accordion) {
         // Basic Info Section
         basicPatienSectionSetUp(accordion);
         // Patient Secondary Info Section
