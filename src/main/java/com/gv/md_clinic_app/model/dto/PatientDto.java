@@ -2,6 +2,7 @@ package com.gv.md_clinic_app.model.dto;
 
 import com.gv.md_clinic_app.model.enums.BloodType;
 import com.gv.md_clinic_app.model.enums.Choice;
+import com.gv.md_clinic_app.model.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class PatientDto {
     private int historyId;
     private BloodType bloodType;
     private Choice isOrganDonor;
+    private Gender gender;
     private LocalDate dob;
     private int age; // Age can be calculated from dob
 

@@ -23,6 +23,7 @@ public class PatientConverter {
         dto.setHistoryId(patient.getHistoryId());
         dto.setBloodType(patient.getBloodType());
         dto.setIsOrganDonor(patient.getIsOrganDonor());
+        dto.setGender(patient.getGender());
         dto.setDob(patient.getDob());
         dto.setAge(patient.getAge());
 
@@ -61,6 +62,7 @@ public class PatientConverter {
         patient.setConditions(ConditionConverter.convertToEntity(patientDto.getConditions()));
         patient.setBloodType(patientDto.getBloodType());
         patient.setIsOrganDonor(patientDto.getIsOrganDonor());
+        patient.setGender(patientDto.getGender());
         patient.setDob(patientDto.getDob());
 
         return patient;

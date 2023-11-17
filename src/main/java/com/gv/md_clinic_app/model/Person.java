@@ -30,6 +30,7 @@ public abstract class Person {
     private String phone;
     @Embedded @NotNull
     private Address address;
+    @NotNull @NotEmpty
     private Gender gender;
 
 }
