@@ -138,21 +138,34 @@ public class PatientFormLayout extends VerticalLayout {
         validateSecondaryPatientFields();
     }
     private void validateSecondaryPatientFields() {
+
         patientFormUtils.fNameAndLNameValidators(emergencyContactFirstName, emergencyContactLastName);
-        patientFormUtils.phoneValidator(emergencyContactPhone);
+
+        emergencyContactFirstName.addValueChangeListener(event -> {
+                patientFormUtils.emailToLowerCase(email);
+        });
     }
     private void validateBasicPatientFields() {
         patientFormUtils.fNameAndLNameValidators(firstName, lastName);
         patientFormUtils.dateFormatter(dob);
-        patientFormUtils.phoneValidator(phone);
-        patientFormUtils.emailToLowerCase(email);
+
+        phone.addValueChangeListener(event -> {
+            if (!event.getValue().trim().isEmpty()) {
+                patientFormUtils.phoneValidator(phone);
+            }
+        });
+        email.addValueChangeListener(event -> {
+            if (!event.getValue().trim().isEmpty()) {
+                patientFormUtils.emailToLowerCase(email);
+            }
+        });
     }
     private void requiredFieldsSetUp() {
         //Basic Patient Information
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
-        email.setRequiredIndicatorVisible(true);
-        phone.setRequiredIndicatorVisible(true);
+        email.setRequiredIndicatorVisible(false);
+        phone.setRequiredIndicatorVisible(false);
         dob.setRequiredIndicatorVisible(true);
 
         //Secondary Patient Information
@@ -186,15 +199,16 @@ public class PatientFormLayout extends VerticalLayout {
                         "Last name can only contain letters, spaces, hyphens, and apostrophes")
                 .bind(PatientDto::getLastName, PatientDto::setLastName);
         binder.forField(email)
-                .asRequired("Email is required")
-                .withValidator(new EmailValidator("This doesn't look like a valid email address"))
-                .withValidator(email -> email.length() <= 254, "Email must be less than 255 characters")
+                .withValidator(emailStr -> emailStr.isEmpty() || !new EmailValidator("This doesn't look like a valid email address").apply(emailStr, null).isError(),
+                        "This doesn't look like a valid email address")
+                .withValidator(emailStr -> emailStr.length() <= 254, "Email must be less than 255 characters")
                 .bind(PatientDto::getEmail, PatientDto::setEmail);
+
         binder.forField(phone)
-                .asRequired("Phone is required")
-                .withValidator(phoneNumber -> phoneNumber.matches(Regex.PHONE_NUMBER_CHECKER.getDisplayString()),
+                .withValidator(phoneNumber -> phoneNumber.isEmpty() || phoneNumber.matches(Regex.PHONE_NUMBER_CHECKER.getDisplayString()),
                         "Phone number must match the format +(XXX) XX-XXX-XXXX")
                 .bind(PatientDto::getPhone, PatientDto::setPhone);
+
         binder.forField(gender)
                 .asRequired("If gender is not known, please select 'Unknown'")
                 .bind(PatientDto::getGender, PatientDto::setGender);

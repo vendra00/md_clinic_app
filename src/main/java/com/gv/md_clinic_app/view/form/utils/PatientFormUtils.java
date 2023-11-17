@@ -25,28 +25,16 @@ public class PatientFormUtils {
     }
     public void fNameAndLNameValidators(TextField firstName, TextField lastName) {
         log.info("fNameAndLNameValidators called");
-
-        firstName.addValueChangeListener(event -> {
-            String input = event.getValue();
-            if (!input.isEmpty()) {
-                firstName.setValue(capitalizeFirstLetter(input));
-            }
-        });
-
-        lastName.addValueChangeListener(event -> {
-            String input = event.getValue();
-            if (!input.isEmpty()) {
-                lastName.setValue(capitalizeFirstLetter(input));
-            }
-        });
+        if (!firstName.isEmpty()) firstName.setValue(capitalizeFirstLetter(firstName.getValue()));
+        if(!lastName.isEmpty()) lastName.setValue(capitalizeFirstLetter(lastName.getValue()));
+    }
+    public Boolean checkEmptyFields(TextField field) {
+        log.info("checkEmptyFields called");
+        return field.isEmpty();
     }
     public void emailToLowerCase(TextField email) {
         log.info("emailToLowerCase called");
-
-        email.addValueChangeListener(event -> {
-            String lowerCaseValue = event.getValue().toLowerCase();
-            email.setValue(lowerCaseValue);
-        });
+        if (!email.isEmpty()) email.setValue(email.getValue().toLowerCase());
     }
     public void dateFormatter(DatePicker dob) {
         log.info("dateFormatter called");
