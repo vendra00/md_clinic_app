@@ -1,6 +1,5 @@
 package com.gv.md_clinic_app.model.dto;
 
-import com.gv.md_clinic_app.model.Habit;
 import com.gv.md_clinic_app.model.enums.BloodType;
 import com.gv.md_clinic_app.model.enums.Choice;
 import com.gv.md_clinic_app.model.enums.Gender;
@@ -23,7 +22,7 @@ public class PatientDto {
     private String email; // Might be omitted for certain roles
     private String phone; // Might be omitted for certain roles
     private AddressDto address;
-    private Habit habit;
+    private HabitDto habit;
     private MedicalHistoryDto medicalHistory; // Detailed for doctors, summary or omitted for others
     private EmergencyContactDto emergencyContact; // Detailed for doctors, summary or omitted for others
     private Set<ConditionDto> conditions; // Detailed for doctors and admin, summary or omitted for patients

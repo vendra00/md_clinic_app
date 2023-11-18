@@ -24,6 +24,8 @@ public class Patient extends Person {
     private MedicalHistory medicalHistory;
     @Embedded
     private EmergencyContact emergencyContact;
+    @Embedded
+    private Habit habit;
     @ManyToMany
     @JoinTable(
             name = "patient_condition",
