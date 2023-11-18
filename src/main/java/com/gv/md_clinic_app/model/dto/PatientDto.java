@@ -26,11 +26,14 @@ public class PatientDto {
     private EmergencyContactDto emergencyContact; // Detailed for doctors, summary or omitted for others
     private Set<ConditionDto> conditions; // Detailed for doctors and admin, summary or omitted for patients
     private String historyId;
+    private double weight;
+    private double height;
     private BloodType bloodType;
     private Choice isOrganDonor;
     private Gender gender;
     private LocalDate dob;
     private int age; // Age can be calculated from dob
+    private double imc; // IMC can be calculated from weight and height
 
     // Depending on your requirements, you might want to include methods to hide certain sensitive information
     public void hideSensitiveDataForPatients() {

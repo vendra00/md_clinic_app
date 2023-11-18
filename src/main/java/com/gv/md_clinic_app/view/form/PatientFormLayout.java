@@ -19,6 +19,7 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.converter.StringToDoubleConverter;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.validator.RegexpValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
@@ -57,6 +58,23 @@ public class PatientFormLayout extends VerticalLayout {
     private final ComboBox<BloodType> bloodType = new ComboBox<>("Blood Type");
     private final ComboBox<Choice> isOrganDonor = new ComboBox<>("Organ Donor");
     private final ComboBox<Gender> gender = new ComboBox<>("Gender");
+    private final TextField height = new TextField("Height (cm)", "170");
+    private final TextField weight = new TextField("Weight (kg)", "70");
+
+    //Patient Habits Information
+    private final ComboBox<Choice> smoking = new ComboBox<>("Smoking");
+    private final ComboBox<Choice> alcohol = new ComboBox<>("Alcohol");
+    private final ComboBox<Choice> drugs = new ComboBox<>("Drugs");
+    private final ComboBox<Choice> exercise = new ComboBox<>("Exercise");
+    private final ComboBox<Choice> diet = new ComboBox<>("Diet");
+    private final ComboBox<Quality> sleep = new ComboBox<>("Sleep");
+    private final ComboBox<Intensity> stress = new ComboBox<>("Stress");
+    private final ComboBox<Choice> caffeine = new ComboBox<>("Caffeine");
+    private final ComboBox<Choice> isVegan = new ComboBox<>("Vegan");
+    private final ComboBox<Choice> isVegetarian = new ComboBox<>("Vegetarian");
+    private final ComboBox<Choice> isOnMedication = new ComboBox<>("Medication");
+
+    //Control buttons and related
     private final Button saveButton = new Button("Register");
     private final Binder<PatientDto> binder = new Binder<>(PatientDto.class);
 
@@ -108,7 +126,7 @@ public class PatientFormLayout extends VerticalLayout {
     }
     private void basicPatienMdSectionSetUp(Accordion accordion) {
         FormLayout basicPatientMdInfoLayout = new FormLayout();
-        basicPatientMdInfoLayout.add(historyId, bloodType, isOrganDonor, gender);
+        basicPatientMdInfoLayout.add(historyId, bloodType, isOrganDonor, gender, height, weight);
         AccordionPanel basicPatientMdInfoPanel = accordion.add("Basic Medical Patient Information", basicPatientMdInfoLayout);
         basicPatientMdInfoPanel.setTooltipText("Basic medical patient information");
         basicPatientMdInfoPanel.addThemeVariants(DetailsVariant.FILLED);
@@ -248,6 +266,21 @@ public class PatientFormLayout extends VerticalLayout {
                         "History number must only contain digits and be 4-10 characters long",
                         Regex.NUMERIC_4_TO_10_DIGITS_PATTERN.getDisplayString()))
                 .bind(PatientDto::getHistoryId, PatientDto::setHistoryId);
+
+        double someMaxHeight = 300;
+        binder.forField(height)
+                .withConverter(new StringToDoubleConverter("Must enter a number"))
+                .withValidator(heightValue -> heightValue == null || heightValue >= 0, "Height must be a positive number")
+                .withValidator(heightValue -> heightValue == null || heightValue <= someMaxHeight, "Height must be less than " + someMaxHeight)
+                .bind(PatientDto::getHeight, PatientDto::setHeight);
+
+        double someMaxWeight=600;
+        binder.forField(weight)
+                .withConverter(new StringToDoubleConverter("Must enter a number"))
+                .withValidator(weightValue -> weightValue == null || weightValue >= 0, "Weight must be a positive number")
+                .withValidator(weightValue -> weightValue == null || weightValue <= someMaxWeight, "Weight must be less than " + someMaxWeight)
+                .bind(PatientDto::getWeight, PatientDto::setWeight);
+
 
         //Secondary patient information
         //Address Section

@@ -33,6 +33,8 @@ public class Patient extends Person {
     @ToString.Exclude
     private Set<Condition> conditions = new HashSet<>();
     private String historyId;
+    private double weight;
+    private double height;
     private BloodType bloodType;
     private Choice isOrganDonor;
     @Past
@@ -42,5 +44,12 @@ public class Patient extends Person {
             return 0;
         }
         return Period.between(dob, LocalDate.now()).getYears();
+    }
+
+    public double getIMC() {
+        if (weight == 0 || height == 0) {
+            return 0;
+        }
+        return weight / (height * height);
     }
 }

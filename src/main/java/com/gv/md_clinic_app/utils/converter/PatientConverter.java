@@ -22,11 +22,14 @@ public class PatientConverter {
         dto.setMedicalHistory(MedicalHistoryConverter.convertToDto(patient.getMedicalHistory()));
         dto.setConditions(ConditionConverter.convertToDto(patient.getConditions()));
         dto.setHistoryId(patient.getHistoryId());
+        dto.setWeight(patient.getWeight());
+        dto.setHeight(patient.getHeight());
         dto.setBloodType(patient.getBloodType());
         dto.setIsOrganDonor(patient.getIsOrganDonor());
         dto.setGender(patient.getGender());
         dto.setDob(patient.getDob());
         dto.setAge(patient.getAge());
+        dto.setImc(patient.getIMC());
 
         checkUserRoleTypeForSensitiveContent(userRole, dto);
 
@@ -60,6 +63,8 @@ public class PatientConverter {
         patient.setEmergencyContact(EmergencyContactConverter.convertToEntity(patientDto.getEmergencyContact()));
         patient.setAddress(AddressConverter.convertToEntity(patientDto.getAddress()));
         patient.setHistoryId(patientDto.getHistoryId());
+        patient.setWeight(patientDto.getWeight());
+        patient.setHeight(patientDto.getHeight());
         patient.setMedicalHistory(MedicalHistoryConverter.convertToEntity(patientDto.getMedicalHistory()));
         patient.setConditions(ConditionConverter.convertToEntity(patientDto.getConditions()));
         patient.setBloodType(patientDto.getBloodType());
