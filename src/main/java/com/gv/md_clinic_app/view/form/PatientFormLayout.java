@@ -476,10 +476,29 @@ public class PatientFormLayout extends VerticalLayout {
     private void callRegisterPatientApi(PatientDto patientDto) {
         log.info("Calling register patient api");
 
+        //Basic Patient Information
         patientDto.setFirstName(sanitizeInput(patientDto.getFirstName()));
         patientDto.setLastName(sanitizeInput(patientDto.getLastName()));
         patientDto.setEmail(sanitizeInput(patientDto.getEmail()));
         patientDto.setPhone(sanitizeInput(patientDto.getPhone()));
+        patientDto.setDob(patientDto.getDob());
+
+        //Secondary Patient Information
+        patientDto.getAddress().setStreet(sanitizeInput(patientDto.getAddress().getStreet()));
+        patientDto.getAddress().setCity(sanitizeInput(patientDto.getAddress().getCity()));
+        patientDto.getAddress().setState(patientDto.getAddress().getState());
+        patientDto.getAddress().setZipCode(sanitizeInput(patientDto.getAddress().getZipCode()));
+        patientDto.getEmergencyContact().setPhone(sanitizeInput(patientDto.getEmergencyContact().getPhone()));
+        patientDto.getEmergencyContact().setFirstName(sanitizeInput(patientDto.getEmergencyContact().getFirstName()));
+        patientDto.getEmergencyContact().setLastName(sanitizeInput(patientDto.getEmergencyContact().getLastName()));
+
+        //Basic Patient MD Information
+        patientDto.setHistoryId(sanitizeInput(patientDto.getHistoryId()));
+        patientDto.setBloodType(patientDto.getBloodType());
+        patientDto.setIsOrganDonor(patientDto.getIsOrganDonor());
+        patientDto.setGender(patientDto.getGender());
+        patientDto.setHeight(patientDto.getHeight());
+        patientDto.setWeight(patientDto.getWeight());
 
         try {
             PatientDto response = restTemplate.postForObject(apiUrl, patientDto, PatientDto.class);

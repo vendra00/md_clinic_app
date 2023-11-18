@@ -17,5 +17,4 @@ public class Address {
     private States state;
     @NotNull @NotEmpty
     private String zipCode;
-
 }
