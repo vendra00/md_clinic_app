@@ -6,7 +6,6 @@ import lombok.Getter;
 public enum Gender {
     MALE("Male"),
     FEMALE("Female"),
-    OTHER("Other"),
     UNKNOWN("Unknown");
 
     private final String displayString;

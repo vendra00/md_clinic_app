@@ -23,6 +23,7 @@ public class PatientDto {
     private String phone; // Might be omitted for certain roles
     private AddressDto address;
     private MedicalHistoryDto medicalHistory; // Detailed for doctors, summary or omitted for others
+    private EmergencyContactDto emergencyContact; // Detailed for doctors, summary or omitted for others
     private Set<ConditionDto> conditions; // Detailed for doctors and admin, summary or omitted for patients
     private String historyId;
     private BloodType bloodType;

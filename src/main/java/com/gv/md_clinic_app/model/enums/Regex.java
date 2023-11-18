@@ -11,6 +11,8 @@ public enum Regex {
     NUMERIC_PATTERN("^[0-9]+$"),
     // Regular expression for 4 to 10 digits number.
     NUMERIC_4_TO_10_DIGITS_PATTERN("^[0-9]{4,10}$"),
+    // Regular expression for 5 digits number.
+    ZIP_CODE_PATTERN("^[0-9]{5}(?:-[0-9]{4})?$"),
     // Allows letters, spaces, hyphens, and apostrophes
     PERSON_NAME_PATTERN("^[A-Za-zÀ-ÖØ-öø-ÿ'\\\\-\\\\s]+$");
 

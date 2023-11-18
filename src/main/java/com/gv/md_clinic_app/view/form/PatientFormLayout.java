@@ -12,6 +12,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
@@ -79,7 +80,7 @@ public class PatientFormLayout extends VerticalLayout {
 
         requiredFieldsSetUp();
         fieldsFeedback();
-        fieldsValitations();
+        fieldsValidations();
         comboBoxValuesSetUp();
         saveBtnConfigSetUp();
 
@@ -113,8 +114,25 @@ public class PatientFormLayout extends VerticalLayout {
         basicPatientMdInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
     private void secondaryPatientSectionSetUp(Accordion accordion) {
-        FormLayout secondaryPatientInfoFormLayout = new FormLayout();
-        secondaryPatientInfoFormLayout.add(street, city, state, zipCode, emergencyContactFirstName, emergencyContactLastName, emergencyContactPhone);
+        // Address section
+        FormLayout addressLayout = new FormLayout();
+        Span addressTitle = new Span("Patient Address");
+        addressTitle.addClassName("section-title"); // Use this class for styling in CSS
+        addressLayout.add(street, city, state, zipCode);
+        VerticalLayout addressSection = new VerticalLayout(addressTitle, addressLayout);
+
+        // Emergency Contact section
+        FormLayout emergencyContactLayout = new FormLayout();
+        Span emergencyContactTitle = new Span("Patient Emergency Contact");
+        emergencyContactTitle.addClassName("section-title"); // Same class for consistent styling
+        emergencyContactLayout.add(emergencyContactFirstName, emergencyContactLastName, emergencyContactPhone);
+        VerticalLayout emergencyContactSection = new VerticalLayout(emergencyContactTitle, emergencyContactLayout);
+
+        // Combine both sections in a single layout
+        VerticalLayout secondaryPatientInfoFormLayout = new VerticalLayout();
+        secondaryPatientInfoFormLayout.add(addressSection, emergencyContactSection);
+
+        // Add the layout to the accordion panel
         AccordionPanel secondaryPatientInfoPanel = accordion.add("Secondary Patient Information", secondaryPatientInfoFormLayout);
         secondaryPatientInfoPanel.setTooltipText("Secondary patient basic information");
         secondaryPatientInfoPanel.addThemeVariants(DetailsVariant.FILLED);
@@ -130,7 +148,7 @@ public class PatientFormLayout extends VerticalLayout {
         saveButton.addClickListener(e -> registerPatient());
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     }
-    private void fieldsValitations() {
+    private void fieldsValidations() {
         // Validate the basic patient fields
         validateBasicPatientFields();
 
@@ -138,25 +156,25 @@ public class PatientFormLayout extends VerticalLayout {
         validateSecondaryPatientFields();
     }
     private void validateSecondaryPatientFields() {
-
         patientFormUtils.fNameAndLNameValidators(emergencyContactFirstName, emergencyContactLastName);
 
-        emergencyContactFirstName.addValueChangeListener(event -> {
-                patientFormUtils.emailToLowerCase(email);
+        emergencyContactPhone.addBlurListener(event -> {
+            if (!emergencyContactPhone.getValue().trim().isEmpty()) {
+                patientFormUtils.phoneValidator(emergencyContactPhone);
+            }
         });
     }
     private void validateBasicPatientFields() {
         patientFormUtils.fNameAndLNameValidators(firstName, lastName);
         patientFormUtils.dateFormatter(dob);
 
-        phone.addValueChangeListener(event -> {
-            if (!event.getValue().trim().isEmpty()) {
+        // Convert to lowercase when the email field is blurred
+        email.addBlurListener(event -> email.setValue(email.getValue().toLowerCase()));
+
+        // Apply the phone mask when the phone field is blurred
+        phone.addBlurListener(event -> {
+            if (!phone.getValue().trim().isEmpty()) {
                 patientFormUtils.phoneValidator(phone);
-            }
-        });
-        email.addValueChangeListener(event -> {
-            if (!event.getValue().trim().isEmpty()) {
-                patientFormUtils.emailToLowerCase(email);
             }
         });
     }
@@ -184,6 +202,8 @@ public class PatientFormLayout extends VerticalLayout {
         gender.setRequiredIndicatorVisible(true);
     }
     private void fieldsFeedback() {
+
+        //Basic Patient Information
         binder.forField(firstName)
                 .asRequired("First name is required")
                 .withValidator(new StringLengthValidator(
@@ -203,12 +223,12 @@ public class PatientFormLayout extends VerticalLayout {
                         "This doesn't look like a valid email address")
                 .withValidator(emailStr -> emailStr.length() <= 254, "Email must be less than 255 characters")
                 .bind(PatientDto::getEmail, PatientDto::setEmail);
-
         binder.forField(phone)
                 .withValidator(phoneNumber -> phoneNumber.isEmpty() || phoneNumber.matches(Regex.PHONE_NUMBER_CHECKER.getDisplayString()),
                         "Phone number must match the format +(XXX) XX-XXX-XXXX")
                 .bind(PatientDto::getPhone, PatientDto::setPhone);
 
+        //Basic Patient MD Information
         binder.forField(gender)
                 .asRequired("If gender is not known, please select 'Unknown'")
                 .bind(PatientDto::getGender, PatientDto::setGender);
@@ -228,6 +248,39 @@ public class PatientFormLayout extends VerticalLayout {
                         "History number must only contain digits and be 4-10 characters long",
                         Regex.NUMERIC_4_TO_10_DIGITS_PATTERN.getDisplayString()))
                 .bind(PatientDto::getHistoryId, PatientDto::setHistoryId);
+
+        //Secondary patient information
+        //Address Section
+        binder.forField(street)
+                .withValidator(streetStr -> streetStr.length() <= 50, "Street must be less than 50 characters")
+                .bind(patientDto -> patientDto.getAddress().getStreet(), (patientDto, streetValue) -> patientDto.getAddress().setStreet(streetValue));
+        binder.forField(city)
+                .withValidator(cityStr -> cityStr.length() <= 50, "City must be less than 50 characters")
+                .bind(patientDto -> patientDto.getAddress().getCity(), (patientDto, cityValue) -> patientDto.getAddress().setCity(cityValue));
+        binder.forField(zipCode)
+                .withValidator(zipCodeStr -> zipCodeStr.isEmpty() || zipCodeStr.matches(Regex.ZIP_CODE_PATTERN.getDisplayString()),
+                        "Zip code must match the format XXXXX or XXXXX-XXXX")
+                .bind(patientDto -> patientDto.getAddress().getZipCode(), (patientDto, zipCodeValue) -> patientDto.getAddress().setZipCode(zipCodeValue));
+        binder.forField(state)
+                .bind(patientDto -> patientDto.getAddress().getState(), (patientDto, stateValue) -> patientDto.getAddress().setState(stateValue));
+
+        //Emergency Contact Section
+        binder.forField(emergencyContactPhone)
+                .withValidator(phoneNumber -> phoneNumber.isEmpty() || phoneNumber.matches(Regex.PHONE_NUMBER_CHECKER.getDisplayString()),
+                        "Phone number must match the format +(XXX) XX-XXX-XXXX")
+                .bind(patientDto -> patientDto.getEmergencyContact().getPhone(), (patientDto, phoneValue) -> patientDto.getEmergencyContact().setPhone(phoneValue));
+        binder.forField(emergencyContactFirstName)
+                .withValidator(new StringLengthValidator(
+                        "First name must be between 2 and 50 characters", 2, 50))
+                .withValidator(name -> name.matches(Regex.PERSON_NAME_PATTERN.getDisplayString()),
+                        "First name can only contain letters, spaces, hyphens, and apostrophes")
+                .bind(patientDto -> patientDto.getEmergencyContact().getFirstName(), (patientDto, firstNameValue) -> patientDto.getEmergencyContact().setFirstName(firstNameValue));
+        binder.forField(emergencyContactLastName)
+                .withValidator(new StringLengthValidator(
+                        "Last name must be between 2 and 50 characters", 2, 50))
+                .withValidator(name -> name.matches(Regex.PERSON_NAME_PATTERN.getDisplayString()),
+                        "Last name can only contain letters, spaces, hyphens, and apostrophes")
+                .bind(patientDto -> patientDto.getEmergencyContact().getLastName(), (patientDto, lastNameValue) -> patientDto.getEmergencyContact().setLastName(lastNameValue));
     }
     private void comboBoxValuesSetUp() {
         // Set the values of the combo boxes

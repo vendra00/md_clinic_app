@@ -18,6 +18,7 @@ public class PatientConverter {
         dto.setEmail(patient.getEmail());
         dto.setPhone(patient.getPhone());
         dto.setAddress(AddressConverter.convertToDto(patient.getAddress()));
+        dto.setEmergencyContact(EmergencyContactConverter.convertToDto(patient.getEmergencyContact()));
         dto.setMedicalHistory(MedicalHistoryConverter.convertToDto(patient.getMedicalHistory()));
         dto.setConditions(ConditionConverter.convertToDto(patient.getConditions()));
         dto.setHistoryId(patient.getHistoryId());
@@ -56,6 +57,7 @@ public class PatientConverter {
         patient.setLastName(patientDto.getLastName());
         patient.setEmail(patientDto.getEmail());
         patient.setPhone(patientDto.getPhone());
+        patient.setEmergencyContact(EmergencyContactConverter.convertToEntity(patientDto.getEmergencyContact()));
         patient.setAddress(AddressConverter.convertToEntity(patientDto.getAddress()));
         patient.setHistoryId(patientDto.getHistoryId());
         patient.setMedicalHistory(MedicalHistoryConverter.convertToEntity(patientDto.getMedicalHistory()));

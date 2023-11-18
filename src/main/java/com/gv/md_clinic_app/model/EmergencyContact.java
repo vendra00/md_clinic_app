@@ -8,8 +8,7 @@ import lombok.Data;
 @Data
 @Embeddable
 public class EmergencyContact {
-    @NotNull @NotEmpty
-    private String name;
-    @NotNull @NotEmpty
+    private String firstName;
+    private String lastName;
     private String phone;
 }
