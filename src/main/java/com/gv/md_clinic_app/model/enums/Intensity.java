@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum Intensity {
     MILD("Mild"),
     MODERATE("Moderate"),
-    SEVERE("Severe");
+    SEVERE("Severe"),
+    UNKNOWN("Unknown");
 
     private final String displayString;
 

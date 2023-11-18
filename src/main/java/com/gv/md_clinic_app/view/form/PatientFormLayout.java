@@ -33,11 +33,12 @@ import org.springframework.web.client.RestTemplate;
 @SpringComponent
 @UIScope
 public class PatientFormLayout extends VerticalLayout {
+    //RestTemplate and related components
     private final RestTemplate restTemplate;
     private final PatientFormUtils patientFormUtils = new PatientFormUtils();
     private final String apiUrl = "http://localhost:8080/doctors/register-patient";
 
-    //Basic Patient Information
+    //Basic Patient Information Components
     private final TextField firstName = new TextField("First Name", "Mary");
     private final TextField lastName = new TextField("Last Name", "Jane");
     private final TextField email = new TextField("Email", "samplmail@email.com");
@@ -45,7 +46,7 @@ public class PatientFormLayout extends VerticalLayout {
     private final DatePicker dob = new DatePicker("Date of Birth");
     private final TextField historyId = new TextField("History Number", "20201587");
 
-    //Secondary Patient Information
+    //Secondary Patient Information Components
     private final TextField street = new TextField("Street", "123 Main St");
     private final TextField city = new TextField("City", "Barcelona");
     private final ComboBox<States> state = new ComboBox<>("State");
@@ -54,14 +55,14 @@ public class PatientFormLayout extends VerticalLayout {
     private final TextField emergencyContactLastName = new TextField("Last Name", "Doe");
     private final TextField emergencyContactPhone = new TextField("Phone", "+(034) 555-555-555");
 
-    //Basic Patient MD Information
+    //Basic Patient MD Information Components
     private final ComboBox<BloodType> bloodType = new ComboBox<>("Blood Type");
     private final ComboBox<Choice> isOrganDonor = new ComboBox<>("Organ Donor");
     private final ComboBox<Gender> gender = new ComboBox<>("Gender");
     private final TextField height = new TextField("Height (cm)", "170");
     private final TextField weight = new TextField("Weight (kg)", "70");
 
-    //Patient Habits Information
+    //Patient Habits Information Components
     private final ComboBox<Choice> smoking = new ComboBox<>("Smoking");
     private final ComboBox<Choice> alcohol = new ComboBox<>("Alcohol");
     private final ComboBox<Choice> drugs = new ComboBox<>("Drugs");
@@ -97,7 +98,7 @@ public class PatientFormLayout extends VerticalLayout {
         buttonLayout.add(saveButton);
 
         requiredFieldsSetUp();
-        fieldsFeedback();
+        fieldsFeedbackBinder();
         fieldsValidations();
         comboBoxValuesSetUp();
         saveBtnConfigSetUp();
@@ -116,6 +117,8 @@ public class PatientFormLayout extends VerticalLayout {
         // Bind fields to the binder
         binder.bindInstanceFields(this);
     }
+
+    //Layouts
     private void accordionSectionLayoutSetUp(Accordion accordion) {
         // Basic Info Section
         basicPatienSectionSetUp(accordion);
@@ -123,6 +126,15 @@ public class PatientFormLayout extends VerticalLayout {
         secondaryPatientSectionSetUp(accordion);
         // Basic Patient MD Info Section
         basicPatienMdSectionSetUp(accordion);
+        // Patient Habits Info Section
+        patientHabitsSectionSetUp(accordion);
+    }
+    private void patientHabitsSectionSetUp(Accordion accordion) {
+        FormLayout patientHabitsInfoLayout = new FormLayout();
+        patientHabitsInfoLayout.add(smoking, alcohol, drugs, exercise, diet, sleep, stress, caffeine, isVegan, isVegetarian, isOnMedication);
+        AccordionPanel patientHabitsInfoPanel = accordion.add("Patient Habits Information", patientHabitsInfoLayout);
+        patientHabitsInfoPanel.setTooltipText("Patient habits information");
+        patientHabitsInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
     private void basicPatienMdSectionSetUp(Accordion accordion) {
         FormLayout basicPatientMdInfoLayout = new FormLayout();
@@ -166,6 +178,8 @@ public class PatientFormLayout extends VerticalLayout {
         saveButton.addClickListener(e -> registerPatient());
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     }
+
+    //Validations
     private void fieldsValidations() {
         // Validate the basic patient fields
         validateBasicPatientFields();
@@ -196,6 +210,8 @@ public class PatientFormLayout extends VerticalLayout {
             }
         });
     }
+
+    //Required Fields Setup
     private void requiredFieldsSetUp() {
         //Basic Patient Information
         firstName.setRequiredIndicatorVisible(true);
@@ -218,10 +234,102 @@ public class PatientFormLayout extends VerticalLayout {
         isOrganDonor.setRequiredIndicatorVisible(true);
         historyId.setRequiredIndicatorVisible(true);
         gender.setRequiredIndicatorVisible(true);
-    }
-    private void fieldsFeedback() {
+        height.setRequiredIndicatorVisible(false);
+        weight.setRequiredIndicatorVisible(false);
 
+        //Patient Habits Information
+        smoking.setRequiredIndicatorVisible(true);
+        alcohol.setRequiredIndicatorVisible(true);
+        drugs.setRequiredIndicatorVisible(true);
+        exercise.setRequiredIndicatorVisible(true);
+        diet.setRequiredIndicatorVisible(true);
+        sleep.setRequiredIndicatorVisible(true);
+        stress.setRequiredIndicatorVisible(true);
+        caffeine.setRequiredIndicatorVisible(true);
+        isVegan.setRequiredIndicatorVisible(true);
+        isVegetarian.setRequiredIndicatorVisible(true);
+        isOnMedication.setRequiredIndicatorVisible(true);
+    }
+
+    //ComboBox Values Setup
+    private void comboBoxValuesSetUp() {
+        // Set the values of the combo boxes
+        bloodType.setItems(BloodType.values());
+        bloodType.setItemLabelGenerator(BloodType::getDisplayString);
+
+        // Set the Organ Donor values of the combo boxes
+        isOrganDonor.setItems(Choice.values());
+        isOrganDonor.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the Gender values of the combo boxes
+        gender.setItems(Gender.values());
+        gender.setItemLabelGenerator(Gender::getDisplayString);
+
+        // Set the States values of the combo boxes
+        state.setItems(States.values());
+        state.setItemLabelGenerator(States::getDisplayString);
+
+        // Set the Smoking values of the combo boxes
+        smoking.setItems(Choice.values());
+        smoking.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the Alcohol values of the combo boxes
+        alcohol.setItems(Choice.values());
+        alcohol.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the Drugs values of the combo boxes
+        drugs.setItems(Choice.values());
+        drugs.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the Exercise values of the combo boxes
+        exercise.setItems(Choice.values());
+        exercise.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the Diet values of the combo boxes
+        diet.setItems(Choice.values());
+        diet.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the Sleep values of the combo boxes
+        sleep.setItems(Quality.values());
+        sleep.setItemLabelGenerator(Quality::getDisplayString);
+
+        // Set the Stress values of the combo boxes
+        stress.setItems(Intensity.values());
+        stress.setItemLabelGenerator(Intensity::getDisplayString);
+
+        // Set the Caffeine values of the combo boxes
+        caffeine.setItems(Choice.values());
+        caffeine.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the isVegan values of the combo boxes
+        isVegan.setItems(Choice.values());
+        isVegan.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the isVegetarian values of the combo boxes
+        isVegetarian.setItems(Choice.values());
+        isVegetarian.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the isOnMedication values of the combo boxes
+        isOnMedication.setItems(Choice.values());
+        isOnMedication.setItemLabelGenerator(Choice::getDisplayString);
+
+    }
+
+    //Fields Feedback Binder
+    private void fieldsFeedbackBinder() {
         //Basic Patient Information
+        basicPatientInfoBinder();
+
+        //Basic Patient MD Information
+        basicPatientMdInfoBinder();
+
+        //Secondary patient information
+        secondaryPatientInfoBinder();
+
+        //Patient Habits Information
+        patientHabitsBinder();
+    }
+    private void basicPatientInfoBinder() {
         binder.forField(firstName)
                 .asRequired("First name is required")
                 .withValidator(new StringLengthValidator(
@@ -245,8 +353,8 @@ public class PatientFormLayout extends VerticalLayout {
                 .withValidator(phoneNumber -> phoneNumber.isEmpty() || phoneNumber.matches(Regex.PHONE_NUMBER_CHECKER.getDisplayString()),
                         "Phone number must match the format +(XXX) XX-XXX-XXXX")
                 .bind(PatientDto::getPhone, PatientDto::setPhone);
-
-        //Basic Patient MD Information
+    }
+    private void basicPatientMdInfoBinder() {
         binder.forField(gender)
                 .asRequired("If gender is not known, please select 'Unknown'")
                 .bind(PatientDto::getGender, PatientDto::setGender);
@@ -266,23 +374,20 @@ public class PatientFormLayout extends VerticalLayout {
                         "History number must only contain digits and be 4-10 characters long",
                         Regex.NUMERIC_4_TO_10_DIGITS_PATTERN.getDisplayString()))
                 .bind(PatientDto::getHistoryId, PatientDto::setHistoryId);
-
         double someMaxHeight = 300;
         binder.forField(height)
                 .withConverter(new StringToDoubleConverter("Must enter a number"))
                 .withValidator(heightValue -> heightValue == null || heightValue >= 0, "Height must be a positive number")
                 .withValidator(heightValue -> heightValue == null || heightValue <= someMaxHeight, "Height must be less than " + someMaxHeight)
                 .bind(PatientDto::getHeight, PatientDto::setHeight);
-
         double someMaxWeight=600;
         binder.forField(weight)
                 .withConverter(new StringToDoubleConverter("Must enter a number"))
                 .withValidator(weightValue -> weightValue == null || weightValue >= 0, "Weight must be a positive number")
                 .withValidator(weightValue -> weightValue == null || weightValue <= someMaxWeight, "Weight must be less than " + someMaxWeight)
                 .bind(PatientDto::getWeight, PatientDto::setWeight);
-
-
-        //Secondary patient information
+    }
+    private void secondaryPatientInfoBinder() {
         //Address Section
         binder.forField(street)
                 .withValidator(streetStr -> streetStr.length() <= 50, "Street must be less than 50 characters")
@@ -315,23 +420,43 @@ public class PatientFormLayout extends VerticalLayout {
                         "Last name can only contain letters, spaces, hyphens, and apostrophes")
                 .bind(patientDto -> patientDto.getEmergencyContact().getLastName(), (patientDto, lastNameValue) -> patientDto.getEmergencyContact().setLastName(lastNameValue));
     }
-    private void comboBoxValuesSetUp() {
-        // Set the values of the combo boxes
-        bloodType.setItems(BloodType.values());
-        bloodType.setItemLabelGenerator(BloodType::getDisplayString);
-
-        // Set the Organ Donor values of the combo boxes
-        isOrganDonor.setItems(Choice.values());
-        isOrganDonor.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Gender values of the combo boxes
-        gender.setItems(Gender.values());
-        gender.setItemLabelGenerator(Gender::getDisplayString);
-
-        // Set the States values of the combo boxes
-        state.setItems(States.values());
-        state.setItemLabelGenerator(States::getDisplayString);
+    private void patientHabitsBinder() {
+        binder.forField(smoking)
+                .asRequired("If smoking habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getSmoking(), (patientDto, smokingValue) -> patientDto.getHabit().setSmoking(smokingValue));
+        binder.forField(alcohol)
+                .asRequired("If alcohol habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getAlcohol(), (patientDto, alcoholValue) -> patientDto.getHabit().setAlcohol(alcoholValue));
+        binder.forField(drugs)
+                .asRequired("If drugs habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getDrugs(), (patientDto, drugsValue) -> patientDto.getHabit().setDrugs(drugsValue));
+        binder.forField(exercise)
+                .asRequired("If exercise habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getExercise(), (patientDto, exerciseValue) -> patientDto.getHabit().setExercise(exerciseValue));
+        binder.forField(diet)
+                .asRequired("If diet habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getDiet(), (patientDto, dietValue) -> patientDto.getHabit().setDiet(dietValue));
+        binder.forField(sleep)
+                .asRequired("If sleep habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getSleep(), (patientDto, sleepValue) -> patientDto.getHabit().setSleep(sleepValue));
+        binder.forField(stress)
+                .asRequired("If stress habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getStress(), (patientDto, stressValue) -> patientDto.getHabit().setStress(stressValue));
+        binder.forField(caffeine)
+                .asRequired("If caffeine habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getCaffeine(), (patientDto, caffeineValue) -> patientDto.getHabit().setCaffeine(caffeineValue));
+        binder.forField(isVegan)
+                .asRequired("If vegan habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getIsVegan(), (patientDto, isVeganValue) -> patientDto.getHabit().setIsVegan(isVeganValue));
+        binder.forField(isVegetarian)
+                .asRequired("If vegetarian habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getIsVegetarian(), (patientDto, isVegetarianValue) -> patientDto.getHabit().setIsVegetarian(isVegetarianValue));
+        binder.forField(isOnMedication)
+                .asRequired("If medication habit is not known, please select 'Unknown'")
+                .bind(patientDto -> patientDto.getHabit().getIsOnMedication(), (patientDto, isOnMedicationValue) -> patientDto.getHabit().setIsOnMedication(isOnMedicationValue));
     }
+
+    //Register Patient
     private void registerPatient() {
         log.info("Register patient button clicked");
 
