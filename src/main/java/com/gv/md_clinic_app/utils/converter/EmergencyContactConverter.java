@@ -1,7 +1,7 @@
 package com.gv.md_clinic_app.utils.converter;
 
-import com.gv.md_clinic_app.model.EmergencyContact;
-import com.gv.md_clinic_app.model.dto.EmergencyContactDto;
+import com.gv.md_clinic_app.model.patient.EmergencyContact;
+import com.gv.md_clinic_app.model.dto.patient.EmergencyContactDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

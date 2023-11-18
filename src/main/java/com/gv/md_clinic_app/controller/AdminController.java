@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.controller;
 
-import com.gv.md_clinic_app.model.Patient;
+import com.gv.md_clinic_app.model.patient.Patient;
 import com.gv.md_clinic_app.service.patient.AdminPatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

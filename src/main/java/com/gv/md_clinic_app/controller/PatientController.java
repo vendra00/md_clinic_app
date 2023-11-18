@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.controller;
 
-import com.gv.md_clinic_app.model.dto.PatientDto;
+import com.gv.md_clinic_app.model.dto.patient.PatientDto;
 import com.gv.md_clinic_app.model.enums.UserRole;
 import com.gv.md_clinic_app.service.patient.PatientSelfService;
 import com.gv.md_clinic_app.utils.SecurityUtils;

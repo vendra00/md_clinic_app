@@ -1,7 +1,7 @@
 package com.gv.md_clinic_app.utils.converter;
 
-import com.gv.md_clinic_app.model.Patient;
-import com.gv.md_clinic_app.model.dto.PatientDto;
+import com.gv.md_clinic_app.model.patient.Patient;
+import com.gv.md_clinic_app.model.dto.patient.PatientDto;
 import com.gv.md_clinic_app.model.enums.UserRole;
 import lombok.extern.slf4j.Slf4j;
 

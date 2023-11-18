@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.service.patient;
 
-import com.gv.md_clinic_app.model.Patient;
+import com.gv.md_clinic_app.model.patient.Patient;
 
 import java.util.List;
 import java.util.Optional;

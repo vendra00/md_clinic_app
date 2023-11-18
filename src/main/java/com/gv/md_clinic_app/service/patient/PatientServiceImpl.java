@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.service.patient;
 
-import com.gv.md_clinic_app.model.Patient;
+import com.gv.md_clinic_app.model.patient.Patient;
 import com.gv.md_clinic_app.repository.PatientRepository;
 import com.gv.md_clinic_app.utils.SecurityUtils;
 import jakarta.persistence.EntityNotFoundException;

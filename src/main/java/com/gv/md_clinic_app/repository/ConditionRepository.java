@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.repository;
 
-import com.gv.md_clinic_app.model.Condition;
+import com.gv.md_clinic_app.model.patient.Condition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,8 +1,6 @@
-package com.gv.md_clinic_app.model;
+package com.gv.md_clinic_app.model.patient;
 
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

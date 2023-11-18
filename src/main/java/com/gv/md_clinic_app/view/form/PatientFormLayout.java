@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.view.form;
 
-import com.gv.md_clinic_app.model.dto.PatientDto;
+import com.gv.md_clinic_app.model.dto.patient.PatientDto;
 import com.gv.md_clinic_app.model.enums.*;
 import com.gv.md_clinic_app.view.form.utils.PatientFormUtils;
 import com.vaadin.flow.component.UI;
@@ -10,6 +10,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
@@ -32,6 +33,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @SpringComponent
 @UIScope
+@CssImport("./styles/patient-form-styles.css")
 public class PatientFormLayout extends VerticalLayout {
     //RestTemplate and related components
     private final RestTemplate restTemplate;
@@ -147,14 +149,14 @@ public class PatientFormLayout extends VerticalLayout {
         // Address section
         FormLayout addressLayout = new FormLayout();
         Span addressTitle = new Span("Patient Address");
-        addressTitle.addClassName("section-title"); // Use this class for styling in CSS
+        addressTitle.addClassName("section-title-secondary-patient-info"); // Use this class for styling in CSS
         addressLayout.add(street, city, state, zipCode);
         VerticalLayout addressSection = new VerticalLayout(addressTitle, addressLayout);
 
         // Emergency Contact section
         FormLayout emergencyContactLayout = new FormLayout();
         Span emergencyContactTitle = new Span("Patient Emergency Contact");
-        emergencyContactTitle.addClassName("section-title"); // Same class for consistent styling
+        emergencyContactTitle.addClassName("section-title-secondary-patient-info"); // Same class for consistent styling
         emergencyContactLayout.add(emergencyContactFirstName, emergencyContactLastName, emergencyContactPhone);
         VerticalLayout emergencyContactSection = new VerticalLayout(emergencyContactTitle, emergencyContactLayout);
 

@@ -1,4 +1,4 @@
-package com.gv.md_clinic_app.model.dto;
+package com.gv.md_clinic_app.model.dto.patient;
 
 import com.gv.md_clinic_app.model.enums.Choice;
 import com.gv.md_clinic_app.model.enums.Intensity;

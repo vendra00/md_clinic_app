@@ -1,7 +1,7 @@
 package com.gv.md_clinic_app.utils.converter;
 
-import com.gv.md_clinic_app.model.Habit;
-import com.gv.md_clinic_app.model.dto.HabitDto;
+import com.gv.md_clinic_app.model.patient.Habit;
+import com.gv.md_clinic_app.model.dto.patient.HabitDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

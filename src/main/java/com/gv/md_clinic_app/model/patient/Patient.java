@@ -1,5 +1,6 @@
-package com.gv.md_clinic_app.model;
+package com.gv.md_clinic_app.model.patient;
 
+import com.gv.md_clinic_app.model.*;
 import com.gv.md_clinic_app.model.enums.BloodType;
 import com.gv.md_clinic_app.model.enums.Choice;
 import jakarta.persistence.*;

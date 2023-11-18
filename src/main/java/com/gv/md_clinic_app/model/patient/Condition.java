@@ -1,4 +1,4 @@
-package com.gv.md_clinic_app.model;
+package com.gv.md_clinic_app.model.patient;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;

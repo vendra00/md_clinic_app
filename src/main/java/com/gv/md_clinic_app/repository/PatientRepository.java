@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.repository;
 
-import com.gv.md_clinic_app.model.Patient;
+import com.gv.md_clinic_app.model.patient.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

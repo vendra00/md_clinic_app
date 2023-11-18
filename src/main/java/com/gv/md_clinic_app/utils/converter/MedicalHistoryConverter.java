@@ -1,7 +1,7 @@
 package com.gv.md_clinic_app.utils.converter;
 
-import com.gv.md_clinic_app.model.MedicalHistory;
-import com.gv.md_clinic_app.model.dto.MedicalHistoryDto;
+import com.gv.md_clinic_app.model.patient.MedicalHistory;
+import com.gv.md_clinic_app.model.dto.patient.MedicalHistoryDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -11,10 +11,7 @@ public class MedicalHistoryConverter {
 
         MedicalHistory medicalHistory = new MedicalHistory();
 
-        medicalHistory.setAllergies(medicalHistoryDto.getAllergies());
-        medicalHistory.setChronicDiseases(medicalHistoryDto.getChronicDiseases());
-        medicalHistory.setSurgeries(medicalHistoryDto.getSurgeries());
-        medicalHistory.setFamilyHistory(medicalHistoryDto.getFamilyHistory());
+        //medicalHistory.setAllergies(medicalHistoryDto.getAllergies());
 
         return medicalHistory;
     }
@@ -24,10 +21,7 @@ public class MedicalHistoryConverter {
 
         MedicalHistoryDto dto = new MedicalHistoryDto();
 
-        dto.setAllergies(medicalHistory.getAllergies());
-        dto.setChronicDiseases(medicalHistory.getChronicDiseases());
-        dto.setSurgeries(medicalHistory.getSurgeries());
-        dto.setFamilyHistory(medicalHistory.getFamilyHistory());
+        //dto.setAllergies(medicalHistory.getAllergies());
 
         return dto;
     }
