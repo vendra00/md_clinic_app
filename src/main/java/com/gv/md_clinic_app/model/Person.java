@@ -32,5 +32,4 @@ public abstract class Person {
     private Address address;
     @NotNull @NotEmpty
     private Gender gender;
-
 }

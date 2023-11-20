@@ -11,7 +11,10 @@ public class MedicalHistoryConverter {
 
         MedicalHistory medicalHistory = new MedicalHistory();
 
-        //medicalHistory.setAllergies(medicalHistoryDto.getAllergies());
+        medicalHistory.setIsAllergic(medicalHistoryDto.getIsAllergic());
+        medicalHistory.setIsIntolerant(medicalHistoryDto.getIsIntolerant());
+        medicalHistory.setAllergies(AllergyConverter.convertToEntity(medicalHistoryDto.getAllergies()));
+        medicalHistory.setIntolerances(IntoleranceConverter.convertToEntity(medicalHistoryDto.getIntolerances()));
 
         return medicalHistory;
     }
@@ -21,7 +24,10 @@ public class MedicalHistoryConverter {
 
         MedicalHistoryDto dto = new MedicalHistoryDto();
 
-        //dto.setAllergies(medicalHistory.getAllergies());
+        dto.setIsAllergic(medicalHistory.getIsAllergic());
+        dto.setIsIntolerant(medicalHistory.getIsIntolerant());
+        dto.setAllergies(AllergyConverter.convertToDto(medicalHistory.getAllergies()));
+        dto.setIntolerances(IntoleranceConverter.convertToDto(medicalHistory.getIntolerances()));
 
         return dto;
     }

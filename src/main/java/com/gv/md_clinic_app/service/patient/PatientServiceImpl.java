@@ -103,7 +103,6 @@ public class PatientServiceImpl implements PatientSelfService, DoctorPatientServ
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + id));
     }
 
-
     @Override
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('DOCTOR')")

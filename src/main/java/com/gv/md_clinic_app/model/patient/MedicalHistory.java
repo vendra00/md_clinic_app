@@ -11,6 +11,7 @@ import lombok.Data;
 @Embeddable
 public class MedicalHistory {
     private Choice isAllergic;
+    private Choice isIntolerant;
 
     @Embedded
     private Allergies allergies;

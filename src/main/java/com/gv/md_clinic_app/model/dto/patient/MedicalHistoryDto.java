@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MedicalHistoryDto {
     private Choice isAllergic;
+    private Choice isIntolerant;
     private AllergiesDto allergies;
     private IntolerancesDto intolerances;
 }
