@@ -77,6 +77,12 @@ public class PatientFormLayout extends VerticalLayout {
     private final ComboBox<Choice> isVegetarian = new ComboBox<>("Vegetarian");
     private final ComboBox<Choice> isOnMedication = new ComboBox<>("Medication");
 
+    //Patient MD History Information Components
+    private final ComboBox<Choice> isAllergic = new ComboBox<>("Has Known Allergies?");
+    private final ComboBox<Choice> isIntolerance = new ComboBox<>("Has Known Intolerances?");
+    private final ComboBox<AllergyType> allergyType = new ComboBox<>("Allergy Type");
+    private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
+
     //Control buttons and related
     private final Button saveButton = new Button("Register");
     private final Binder<PatientDto> binder = new Binder<>(PatientDto.class);
@@ -123,13 +129,15 @@ public class PatientFormLayout extends VerticalLayout {
     //Layouts
     private void accordionSectionLayoutSetUp(Accordion accordion) {
         // Basic Info Section
-        basicPatienSectionSetUp(accordion);
+        basicPatientSectionSetUp(accordion);
         // Patient Secondary Info Section
         secondaryPatientSectionSetUp(accordion);
         // Basic Patient MD Info Section
-        basicPatienMdSectionSetUp(accordion);
+        basicPatientMdSectionSetUp(accordion);
         // Patient Habits Info Section
         patientHabitsSectionSetUp(accordion);
+        // Patient MD History Info Section
+        patientMDHistorySectionSetUp(accordion);
     }
     private void patientHabitsSectionSetUp(Accordion accordion) {
         FormLayout patientHabitsInfoLayout = new FormLayout();
@@ -138,7 +146,7 @@ public class PatientFormLayout extends VerticalLayout {
         patientHabitsInfoPanel.setTooltipText("Patient habits information");
         patientHabitsInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
-    private void basicPatienMdSectionSetUp(Accordion accordion) {
+    private void basicPatientMdSectionSetUp(Accordion accordion) {
         FormLayout basicPatientMdInfoLayout = new FormLayout();
         basicPatientMdInfoLayout.add(historyId, bloodType, isOrganDonor, gender, height, weight);
         AccordionPanel basicPatientMdInfoPanel = accordion.add("Basic Medical Patient Information", basicPatientMdInfoLayout);
@@ -169,12 +177,56 @@ public class PatientFormLayout extends VerticalLayout {
         secondaryPatientInfoPanel.setTooltipText("Secondary patient basic information");
         secondaryPatientInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
-    private void basicPatienSectionSetUp(Accordion accordion) {
+    private void basicPatientSectionSetUp(Accordion accordion) {
         FormLayout basicInfoFormLayout = new FormLayout();
         basicInfoFormLayout.add(firstName, lastName, email, phone, dob);
         AccordionPanel basicInfoPanel = accordion.add("Basic Patient Information", basicInfoFormLayout);
         basicInfoPanel.setTooltipText("Basic patient basic information");
         basicInfoPanel.addThemeVariants(DetailsVariant.FILLED);
+    }
+    private void patientMDHistorySectionSetUp(Accordion accordion){
+        // Address section
+        FormLayout allergiesLayout = new FormLayout();
+        Span allergiesTitle = new Span("Patient Allergies");
+        allergiesTitle.addClassName("section-title-secondary-patient-info");
+        allergiesLayout.add(isAllergic, allergyType);
+        VerticalLayout allergiesSection = new VerticalLayout(allergiesTitle, allergiesLayout);
+
+        // Emergency Contact section
+        FormLayout intolerancesLayout = new FormLayout();
+        Span intolerancesTitle = new Span("Patient Intolerances");
+        intolerancesTitle.addClassName("section-title-secondary-patient-info");
+        intolerancesLayout.add(isIntolerance, intoleranceType);
+        VerticalLayout intolerancesSection = new VerticalLayout(intolerancesTitle, intolerancesLayout);
+
+        // Combine both sections in a single layout
+        VerticalLayout patientMDHistoryInfoFormLayout = new VerticalLayout();
+        patientMDHistoryInfoFormLayout.add(allergiesSection, intolerancesSection);
+
+        // Add the layout to the accordion panel
+        AccordionPanel patientMDHistoryInfoPanel = accordion.add("Patient Medical History Information", patientMDHistoryInfoFormLayout);
+        patientMDHistoryInfoPanel.setTooltipText("Patient Medical History");
+        patientMDHistoryInfoPanel.addThemeVariants(DetailsVariant.FILLED);
+
+        // Add value change listener to isAllergic ComboBox
+        isAllergic.addValueChangeListener(event -> {
+            // Assuming 'Choice' enum has a value 'YES'
+            boolean isAllergicSelected = Choice.YES.equals(event.getValue());
+            allergyType.setEnabled(isAllergicSelected);
+            // If there are other fields related to allergies, enable/disable them here
+        });
+
+        // Add value change listener to isIntolerance ComboBox
+        isIntolerance.addValueChangeListener(event -> {
+            // Assuming 'Choice' enum has a value 'YES'
+            boolean isIntolerantSelected = Choice.YES.equals(event.getValue());
+            intoleranceType.setEnabled(isIntolerantSelected);
+            // If there are other fields related to intolerances, enable/disable them here
+        });
+
+        // Initially disable the fields until an option is selected
+        allergyType.setEnabled(false);
+        intoleranceType.setEnabled(false);
     }
     private void saveBtnConfigSetUp() {
         saveButton.addClickListener(e -> registerPatient());
@@ -251,6 +303,12 @@ public class PatientFormLayout extends VerticalLayout {
         isVegan.setRequiredIndicatorVisible(true);
         isVegetarian.setRequiredIndicatorVisible(true);
         isOnMedication.setRequiredIndicatorVisible(true);
+
+        //Patient MD History Information
+        isAllergic.setRequiredIndicatorVisible(true);
+        isIntolerance.setRequiredIndicatorVisible(true);
+        allergyType.setRequiredIndicatorVisible(false);
+        intoleranceType.setRequiredIndicatorVisible(false);
     }
 
     //ComboBox Values Setup
@@ -315,6 +373,21 @@ public class PatientFormLayout extends VerticalLayout {
         isOnMedication.setItems(Choice.values());
         isOnMedication.setItemLabelGenerator(Choice::getDisplayString);
 
+        // Set the isAllergic values of the combo boxes
+        isAllergic.setItems(Choice.values());
+        isAllergic.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the isIntolerance values of the combo boxes
+        isIntolerance.setItems(Choice.values());
+        isIntolerance.setItemLabelGenerator(Choice::getDisplayString);
+
+        // Set the allergyType values of the combo boxes
+        allergyType.setItems(AllergyType.values());
+        allergyType.setItemLabelGenerator(AllergyType::getDisplayString);
+
+        // Set the intoleranceType values of the combo boxes
+        intoleranceType.setItems(IntoleranceType.values());
+        intoleranceType.setItemLabelGenerator(IntoleranceType::getDisplayString);
     }
 
     //Fields Feedback Binder
@@ -456,6 +529,9 @@ public class PatientFormLayout extends VerticalLayout {
         binder.forField(isOnMedication)
                 .asRequired("If medication habit is not known, please select 'Unknown'")
                 .bind(patientDto -> patientDto.getHabit().getIsOnMedication(), (patientDto, isOnMedicationValue) -> patientDto.getHabit().setIsOnMedication(isOnMedicationValue));
+    }
+    private void patientMDHistoryBinder() {
+
     }
 
     //Register Patient
