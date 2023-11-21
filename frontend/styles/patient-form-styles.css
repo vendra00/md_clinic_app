@@ -3,5 +3,19 @@
     margin-bottom: 10px;
     text-align: center; /* Aligns the text to the center */
     width: 100%;
-    /* other styles */
+
+
+}
+
+.dialog-header {
+    font-size: 18px;
+    border-bottom: 1px solid var(--lumo-contrast-10pct);
+    padding: var(--lumo-space-m);
+}
+
+.button-layout {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* This sets the space between the buttons */
+    padding: 10px 0; /* This adds some padding above and below the button layout */
 }

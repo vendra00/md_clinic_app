@@ -12,11 +12,14 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.DetailsVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -37,6 +40,7 @@ import org.springframework.web.client.RestTemplate;
 public class PatientFormLayout extends VerticalLayout {
     //RestTemplate and related components
     private final RestTemplate restTemplate;
+    private final VerticalLayout allergyFormsLayout = new VerticalLayout();
     private final PatientFormUtils patientFormUtils = new PatientFormUtils();
     private final String apiUrl = "http://localhost:8080/doctors/register-patient";
 
@@ -81,6 +85,7 @@ public class PatientFormLayout extends VerticalLayout {
     private final ComboBox<Choice> isAllergic = new ComboBox<>("Has Known Allergies?");
     private final ComboBox<Choice> isIntolerance = new ComboBox<>("Has Known Intolerances?");
     private final ComboBox<AllergyType> allergyType = new ComboBox<>("Allergy Type");
+    Button addAllergyButton = new Button("Add Allergy");
     private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
 
     //Control buttons and related
@@ -189,7 +194,7 @@ public class PatientFormLayout extends VerticalLayout {
         FormLayout allergiesLayout = new FormLayout();
         Span allergiesTitle = new Span("Patient Allergies");
         allergiesTitle.addClassName("section-title-secondary-patient-info");
-        allergiesLayout.add(isAllergic, allergyType);
+        allergiesLayout.add(isAllergic, allergyType, addAllergyButton);
         VerticalLayout allergiesSection = new VerticalLayout(allergiesTitle, allergiesLayout);
 
         // Emergency Contact section
@@ -213,7 +218,10 @@ public class PatientFormLayout extends VerticalLayout {
             // Assuming 'Choice' enum has a value 'YES'
             boolean isAllergicSelected = Choice.YES.equals(event.getValue());
             allergyType.setEnabled(isAllergicSelected);
+            addAllergyButton.setEnabled(isAllergicSelected);
             // If there are other fields related to allergies, enable/disable them here
+            addAllergyButton.addClickListener(click -> openAllergyFormDialog());
+            add(allergyFormsLayout);
         });
 
         // Add value change listener to isIntolerance ComboBox
@@ -227,6 +235,7 @@ public class PatientFormLayout extends VerticalLayout {
         // Initially disable the fields until an option is selected
         allergyType.setEnabled(false);
         intoleranceType.setEnabled(false);
+        addAllergyButton.setEnabled(false);
     }
     private void saveBtnConfigSetUp() {
         saveButton.addClickListener(e -> registerPatient());
@@ -589,4 +598,26 @@ public class PatientFormLayout extends VerticalLayout {
             });
         }
     }
+
+    //Supporting Methods and Forms
+    private void openAllergyFormDialog() {
+        Dialog allergyDialog = new Dialog();
+
+        H3 dialogTitle = new H3("Add Allergy Details");
+
+        // Layout for the header, which contains the title and the close button
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.addClassName("dialog-header");
+        headerLayout.setWidthFull();
+        headerLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        headerLayout.add(dialogTitle);
+
+        AllergyForm allergyForm = new AllergyForm(allergyDialog);
+
+        // Add the header and the form to the dialog
+        allergyDialog.add(headerLayout, allergyForm);
+        allergyDialog.setDraggable(true);
+        allergyDialog.open();
+    }
+
 }
