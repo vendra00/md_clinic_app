@@ -406,6 +406,8 @@ public class PatientFormLayout extends VerticalLayout {
 
     //Fields Feedback Binder
     private void fieldsFeedbackBinder() {
+        log.debug("Fields feedback binder called");
+
         //Basic Patient Information
         basicPatientInfoBinder();
 
@@ -419,6 +421,8 @@ public class PatientFormLayout extends VerticalLayout {
         patientHabitsBinder();
     }
     private void basicPatientInfoBinder() {
+        log.debug("Basic patient info binder called");
+
         binder.forField(firstName)
                 .asRequired("First name is required")
                 .withValidator(new StringLengthValidator(
@@ -444,6 +448,8 @@ public class PatientFormLayout extends VerticalLayout {
                 .bind(PatientDto::getPhone, PatientDto::setPhone);
     }
     private void basicPatientMdInfoBinder() {
+        log.debug("Basic patient MD info binder called");
+
         binder.forField(gender)
                 .asRequired("If gender is not known, please select 'Unknown'")
                 .bind(PatientDto::getGender, PatientDto::setGender);
@@ -477,6 +483,8 @@ public class PatientFormLayout extends VerticalLayout {
                 .bind(PatientDto::getWeight, PatientDto::setWeight);
     }
     private void secondaryPatientInfoBinder() {
+        log.debug("Secondary patient info binder called");
+
         //Address Section
         binder.forField(street)
                 .withValidator(streetStr -> streetStr.length() <= 50, "Street must be less than 50 characters")
@@ -510,6 +518,8 @@ public class PatientFormLayout extends VerticalLayout {
                 .bind(patientDto -> patientDto.getEmergencyContact().getLastName(), (patientDto, lastNameValue) -> patientDto.getEmergencyContact().setLastName(lastNameValue));
     }
     private void patientHabitsBinder() {
+        log.debug("Patient habits binder called");
+
         binder.forField(smoking)
                 .asRequired("If smoking habit is not known, please select 'Unknown'")
                 .bind(patientDto -> patientDto.getHabit().getSmoking(), (patientDto, smokingValue) -> patientDto.getHabit().setSmoking(smokingValue));
@@ -545,12 +555,13 @@ public class PatientFormLayout extends VerticalLayout {
                 .bind(patientDto -> patientDto.getHabit().getIsOnMedication(), (patientDto, isOnMedicationValue) -> patientDto.getHabit().setIsOnMedication(isOnMedicationValue));
     }
     private void patientMDHistoryBinder() {
+        log.debug("Patient MD history binder called");
 
     }
 
     //Register Patient
     private void registerPatient() {
-        log.info("Register patient button clicked");
+        log.debug("Register patient button clicked");
 
         PatientDto patientDto = new PatientDto();
         if(binder.writeBeanIfValid(patientDto)) {
@@ -558,13 +569,17 @@ public class PatientFormLayout extends VerticalLayout {
         }
     }
     private String sanitizeInput(String input) {
+        log.debug("Sanitizing input");
+
         return sanitizeString(input);
     }
     public String sanitizeString(String input) {
+        log.debug("Sanitizing string");
+
         return input.replaceAll(Regex.STRING_SANITIZER.getDisplayString(), ""); // This regex removes anything that looks like an HTML tag
     }
     private void callRegisterPatientApi(PatientDto patientDto) {
-        log.info("Calling register patient api");
+        log.debug("Calling register patient api");
 
         //Basic Patient Information
         patientDto.setFirstName(sanitizeInput(patientDto.getFirstName()));
@@ -602,6 +617,8 @@ public class PatientFormLayout extends VerticalLayout {
 
     //Supporting Methods and Forms
     private void openAllergyFormDialog() {
+        log.debug("Open allergy form dialog called");
+
         Dialog allergyDialog = new Dialog();
 
         H3 dialogTitle = new H3("Add Allergy Details");
@@ -622,6 +639,8 @@ public class PatientFormLayout extends VerticalLayout {
     }
 
     private void openIntoleranceFormDialog() {
+        log.debug("Open intolerance form dialog called");
+
         Dialog intoleranceDialog = new Dialog();
 
         H3 dialogTitle = new H3("Add Intolerance Details");

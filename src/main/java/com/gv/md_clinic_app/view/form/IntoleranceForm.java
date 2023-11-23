@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class IntoleranceForm extends VerticalLayout {
 
+    // Create the components
     private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
     private final TextField intoleranceName = new TextField("Intolerance Name");
     private final TextArea intoleranceDescription = new TextArea("Description");
