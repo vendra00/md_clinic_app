@@ -38,11 +38,17 @@ import org.springframework.web.client.RestTemplate;
 @UIScope
 @CssImport("./styles/patient-form-styles.css")
 public class PatientFormLayout extends VerticalLayout {
-    //RestTemplate and related components
+
+    //RestTemplate for API calls
     private final RestTemplate restTemplate;
-    private final VerticalLayout allergyFormsLayout = new VerticalLayout();
-    private final PatientFormUtils patientFormUtils = new PatientFormUtils();
     private final String apiUrl = "http://localhost:8080/doctors/register-patient";
+
+    //Dialogs for Allergy and Intolerance forms
+    private final VerticalLayout allergyFormsLayout = new VerticalLayout();
+    private final VerticalLayout intoleranceFormsLayout = new VerticalLayout();
+
+    //Utils
+    private final PatientFormUtils patientFormUtils = new PatientFormUtils();
 
     //Basic Patient Information Components
     private final TextField firstName = new TextField("First Name", "Mary");
@@ -56,7 +62,7 @@ public class PatientFormLayout extends VerticalLayout {
     private final TextField street = new TextField("Street", "123 Main St");
     private final TextField city = new TextField("City", "Barcelona");
     private final ComboBox<States> state = new ComboBox<>("State");
-    private final TextField zipCode = new TextField("zipCode", "08001");
+    private final TextField zipCode = new TextField("Zip Code", "08001");
     private final TextField emergencyContactFirstName = new TextField("First Name", "John");
     private final TextField emergencyContactLastName = new TextField("Last Name", "Doe");
     private final TextField emergencyContactPhone = new TextField("Phone", "+(034) 555-555-555");
@@ -143,6 +149,11 @@ public class PatientFormLayout extends VerticalLayout {
         // Patient MD History Info Section
         patientMDHistorySectionSetUp(accordion);
     }
+
+    /**
+     * Method to set up the Patient Habits section of the accordion.
+     * @param accordion - the accordion to which the section is added.
+     */
     private void patientHabitsSectionSetUp(Accordion accordion) {
         FormLayout patientHabitsInfoLayout = new FormLayout();
         patientHabitsInfoLayout.add(smoking, alcohol, drugs, exercise, diet, sleep, stress, caffeine, isVegan, isVegetarian, isOnMedication);
@@ -229,6 +240,7 @@ public class PatientFormLayout extends VerticalLayout {
             addIntoleranceButton.setEnabled(isIntolerantSelected);
             addIntoleranceButton.addClickListener(click -> openIntoleranceFormDialog());
             // If there are other fields related to intolerances, enable/disable them here
+            add(intoleranceFormsLayout);
         });
 
         // Initially disable the fields until an option is selected

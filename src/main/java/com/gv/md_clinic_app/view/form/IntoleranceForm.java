@@ -20,13 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class IntoleranceForm extends VerticalLayout {
 
-    // Create the components
+    // Create the components for the form
     private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
     private final TextField intoleranceName = new TextField("Intolerance Name");
     private final TextArea intoleranceDescription = new TextArea("Description");
     private final Button saveButton = new Button("Save");
     private final Button closeButton = new Button("Close");
 
+    /**
+     * Constructor for the IntoleranceForm class.
+     * @param parentDialog - the dialog in which the form is displayed.
+     */
     public IntoleranceForm(Dialog parentDialog) {
         log.debug("IntoleranceForm initialized");
         comboBoxValuesSetUp();
@@ -47,6 +51,9 @@ public class IntoleranceForm extends VerticalLayout {
         add(intoleranceType, intoleranceName, intoleranceDescription, buttonLayout);
     }
 
+    /**
+     * Method to set up the combo boxes in the form.
+     */
     private void comboBoxValuesSetUp() {
         log.debug("Setting up the combo boxes");
         // Set the intoleranceType values of the combo boxes
