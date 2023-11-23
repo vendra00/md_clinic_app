@@ -231,3 +231,4 @@ build/
 /src/main/dev-bundle/webapp/VAADIN/build/vaadin-virtual-list-96896203-65e629a8.js
 /frontend/generated/jar-resources/virtualListConnector.js
 /frontend/generated/vite-devmode.ts
+/package-lock.json

@@ -85,7 +85,7 @@ public class PatientFormLayout extends VerticalLayout {
     private final ComboBox<Choice> isAllergic = new ComboBox<>("Has Known Allergies?");
     private final ComboBox<Choice> isIntolerance = new ComboBox<>("Has Known Intolerances?");
     private final Button addAllergyButton = new Button("Add Allergy");
-    private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
+    private final Button addIntoleranceButton = new Button("Add Intolerance");
 
     //Control buttons and related
     private final Button saveButton = new Button("Register");
@@ -200,7 +200,7 @@ public class PatientFormLayout extends VerticalLayout {
         FormLayout intolerancesLayout = new FormLayout();
         Span intolerancesTitle = new Span("Patient Intolerances");
         intolerancesTitle.addClassName("section-title-secondary-patient-info");
-        intolerancesLayout.add(isIntolerance, intoleranceType);
+        intolerancesLayout.add(isIntolerance, addIntoleranceButton);
         VerticalLayout intolerancesSection = new VerticalLayout(intolerancesTitle, intolerancesLayout);
 
         // Combine both sections in a single layout
@@ -226,12 +226,13 @@ public class PatientFormLayout extends VerticalLayout {
         isIntolerance.addValueChangeListener(event -> {
             // Assuming 'Choice' enum has a value 'YES'
             boolean isIntolerantSelected = Choice.YES.equals(event.getValue());
-            intoleranceType.setEnabled(isIntolerantSelected);
+            addIntoleranceButton.setEnabled(isIntolerantSelected);
+            addIntoleranceButton.addClickListener(click -> openIntoleranceFormDialog());
             // If there are other fields related to intolerances, enable/disable them here
         });
 
         // Initially disable the fields until an option is selected
-        intoleranceType.setEnabled(false);
+        addIntoleranceButton.setEnabled(false);
         addAllergyButton.setEnabled(false);
     }
     private void saveBtnConfigSetUp() {
@@ -313,7 +314,6 @@ public class PatientFormLayout extends VerticalLayout {
         //Patient MD History Information
         isAllergic.setRequiredIndicatorVisible(true);
         isIntolerance.setRequiredIndicatorVisible(true);
-        intoleranceType.setRequiredIndicatorVisible(false);
     }
 
     //ComboBox Values Setup
@@ -385,10 +385,6 @@ public class PatientFormLayout extends VerticalLayout {
         // Set the isIntolerance values of the combo boxes
         isIntolerance.setItems(Choice.values());
         isIntolerance.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the intoleranceType values of the combo boxes
-        intoleranceType.setItems(IntoleranceType.values());
-        intoleranceType.setItemLabelGenerator(IntoleranceType::getDisplayString);
     }
 
     //Fields Feedback Binder
@@ -580,14 +576,10 @@ public class PatientFormLayout extends VerticalLayout {
         try {
             PatientDto response = restTemplate.postForObject(apiUrl, patientDto, PatientDto.class);
             // Handle the response, e.g., show a notification
-            UI.getCurrent().access(() -> {
-                Notification.show("Patient registered successfully", 3000, Notification.Position.MIDDLE);
-            });
+            UI.getCurrent().access(() -> Notification.show("Patient registered successfully", 3000, Notification.Position.MIDDLE));
         } catch (Exception e) {
             // Handle errors, e.g., show an error notification
-            UI.getCurrent().access(() -> {
-                Notification.show("Failed to register patient: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
-            });
+            UI.getCurrent().access(() -> Notification.show("Failed to register patient: " + e.getMessage(), 3000, Notification.Position.MIDDLE));
         }
     }
 
@@ -610,6 +602,26 @@ public class PatientFormLayout extends VerticalLayout {
         allergyDialog.add(headerLayout, allergyForm);
         allergyDialog.setDraggable(true);
         allergyDialog.open();
+    }
+
+    private void openIntoleranceFormDialog() {
+        Dialog intoleranceDialog = new Dialog();
+
+        H3 dialogTitle = new H3("Add Intolerance Details");
+
+        // Layout for the header, which contains the title and the close button
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.addClassName("dialog-header");
+        headerLayout.setWidthFull();
+        headerLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        headerLayout.add(dialogTitle);
+
+        IntoleranceForm intoleranceForm = new IntoleranceForm(intoleranceDialog);
+
+        // Add the header and the form to the dialog
+        intoleranceDialog.add(headerLayout, intoleranceForm);
+        intoleranceDialog.setDraggable(true);
+        intoleranceDialog.open();
     }
 
 }
