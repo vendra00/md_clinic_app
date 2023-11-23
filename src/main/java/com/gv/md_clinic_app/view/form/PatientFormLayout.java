@@ -321,70 +321,87 @@ public class PatientFormLayout extends VerticalLayout {
         // Set the values of the combo boxes
         bloodType.setItems(BloodType.values());
         bloodType.setItemLabelGenerator(BloodType::getDisplayString);
+        bloodType.setHelperText("Select a blood type");
 
         // Set the Organ Donor values of the combo boxes
         isOrganDonor.setItems(Choice.values());
         isOrganDonor.setItemLabelGenerator(Choice::getDisplayString);
+        isOrganDonor.setHelperText("Select if is organ donor");
 
         // Set the Gender values of the combo boxes
         gender.setItems(Gender.values());
         gender.setItemLabelGenerator(Gender::getDisplayString);
+        gender.setHelperText("Select a gender");
 
         // Set the States values of the combo boxes
         state.setItems(States.values());
         state.setItemLabelGenerator(States::getDisplayString);
+        state.setHelperText("Select a state");
 
         // Set the Smoking values of the combo boxes
         smoking.setItems(Choice.values());
         smoking.setItemLabelGenerator(Choice::getDisplayString);
+        smoking.setHelperText("Select if patient smokes");
 
         // Set the Alcohol values of the combo boxes
         alcohol.setItems(Choice.values());
         alcohol.setItemLabelGenerator(Choice::getDisplayString);
+        alcohol.setHelperText("Select if patient drinks alcohol");
 
         // Set the Drugs values of the combo boxes
         drugs.setItems(Choice.values());
         drugs.setItemLabelGenerator(Choice::getDisplayString);
+        drugs.setHelperText("Select if patient uses any (illegal) drugs");
 
         // Set the Exercise values of the combo boxes
         exercise.setItems(Choice.values());
         exercise.setItemLabelGenerator(Choice::getDisplayString);
+        exercise.setHelperText("Select if patient exercises");
 
         // Set the Diet values of the combo boxes
         diet.setItems(Choice.values());
         diet.setItemLabelGenerator(Choice::getDisplayString);
+        diet.setHelperText("Select if patient has a special diet");
 
         // Set the Sleep values of the combo boxes
         sleep.setItems(Quality.values());
         sleep.setItemLabelGenerator(Quality::getDisplayString);
+        sleep.setHelperText("Select the quality of patient's sleep");
 
         // Set the Stress values of the combo boxes
         stress.setItems(Intensity.values());
         stress.setItemLabelGenerator(Intensity::getDisplayString);
+        stress.setHelperText("Select the intensity of patient's stress");
 
         // Set the Caffeine values of the combo boxes
         caffeine.setItems(Choice.values());
         caffeine.setItemLabelGenerator(Choice::getDisplayString);
+        caffeine.setHelperText("Select if patient consumes caffeine");
 
         // Set the isVegan values of the combo boxes
         isVegan.setItems(Choice.values());
         isVegan.setItemLabelGenerator(Choice::getDisplayString);
+        isVegan.setHelperText("Select if patient is vegan");
 
         // Set the isVegetarian values of the combo boxes
         isVegetarian.setItems(Choice.values());
         isVegetarian.setItemLabelGenerator(Choice::getDisplayString);
+        isVegetarian.setHelperText("Select if patient is vegetarian");
 
         // Set the isOnMedication values of the combo boxes
         isOnMedication.setItems(Choice.values());
         isOnMedication.setItemLabelGenerator(Choice::getDisplayString);
+        isOnMedication.setHelperText("Select if patient is on any medication");
 
         // Set the isAllergic values of the combo boxes
         isAllergic.setItems(Choice.values());
         isAllergic.setItemLabelGenerator(Choice::getDisplayString);
+        isAllergic.setHelperText("Select if patient has any know allergies");
 
         // Set the isIntolerance values of the combo boxes
         isIntolerance.setItems(Choice.values());
         isIntolerance.setItemLabelGenerator(Choice::getDisplayString);
+        isIntolerance.setHelperText("Select if patient has any know intolerances");
     }
 
     //Fields Feedback Binder

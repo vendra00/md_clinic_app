@@ -37,6 +37,11 @@ public class IntoleranceForm extends VerticalLayout {
         buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         buttonLayout.add(saveButton, closeButton);
 
+        // Set the helper text for the combo box
+        intoleranceType.setHelperText("Select intolerance type");
+        // Set the combo box as required
+        intoleranceType.setRequired(true);
+
         // Add all components to the form
         add(intoleranceType, intoleranceName, intoleranceDescription, buttonLayout);
     }

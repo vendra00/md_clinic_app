@@ -35,6 +35,11 @@ class AllergyForm extends VerticalLayout {
         buttonLayout.setJustifyContentMode(JustifyContentMode.CENTER); // Align to the end (right)
         buttonLayout.add(saveButton, closeButton); // Add both buttons to the layout
 
+        // Set the helper text for the combo box
+        allergyType.setHelperText("Select allergy type");
+        // Set the combo box as required
+        allergyType.setRequired(true);
+
         // Add all components to the form
         add(allergyType, allergyName, allergyDescription, buttonLayout); // Add the button layout instead of individual buttons
     }
