@@ -84,8 +84,7 @@ public class PatientFormLayout extends VerticalLayout {
     //Patient MD History Information Components
     private final ComboBox<Choice> isAllergic = new ComboBox<>("Has Known Allergies?");
     private final ComboBox<Choice> isIntolerance = new ComboBox<>("Has Known Intolerances?");
-    private final ComboBox<AllergyType> allergyType = new ComboBox<>("Allergy Type");
-    Button addAllergyButton = new Button("Add Allergy");
+    private final Button addAllergyButton = new Button("Add Allergy");
     private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
 
     //Control buttons and related
@@ -194,7 +193,7 @@ public class PatientFormLayout extends VerticalLayout {
         FormLayout allergiesLayout = new FormLayout();
         Span allergiesTitle = new Span("Patient Allergies");
         allergiesTitle.addClassName("section-title-secondary-patient-info");
-        allergiesLayout.add(isAllergic, allergyType, addAllergyButton);
+        allergiesLayout.add(isAllergic, addAllergyButton);
         VerticalLayout allergiesSection = new VerticalLayout(allergiesTitle, allergiesLayout);
 
         // Emergency Contact section
@@ -217,7 +216,6 @@ public class PatientFormLayout extends VerticalLayout {
         isAllergic.addValueChangeListener(event -> {
             // Assuming 'Choice' enum has a value 'YES'
             boolean isAllergicSelected = Choice.YES.equals(event.getValue());
-            allergyType.setEnabled(isAllergicSelected);
             addAllergyButton.setEnabled(isAllergicSelected);
             // If there are other fields related to allergies, enable/disable them here
             addAllergyButton.addClickListener(click -> openAllergyFormDialog());
@@ -233,7 +231,6 @@ public class PatientFormLayout extends VerticalLayout {
         });
 
         // Initially disable the fields until an option is selected
-        allergyType.setEnabled(false);
         intoleranceType.setEnabled(false);
         addAllergyButton.setEnabled(false);
     }
@@ -316,7 +313,6 @@ public class PatientFormLayout extends VerticalLayout {
         //Patient MD History Information
         isAllergic.setRequiredIndicatorVisible(true);
         isIntolerance.setRequiredIndicatorVisible(true);
-        allergyType.setRequiredIndicatorVisible(false);
         intoleranceType.setRequiredIndicatorVisible(false);
     }
 
@@ -389,10 +385,6 @@ public class PatientFormLayout extends VerticalLayout {
         // Set the isIntolerance values of the combo boxes
         isIntolerance.setItems(Choice.values());
         isIntolerance.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the allergyType values of the combo boxes
-        allergyType.setItems(AllergyType.values());
-        allergyType.setItemLabelGenerator(AllergyType::getDisplayString);
 
         // Set the intoleranceType values of the combo boxes
         intoleranceType.setItems(IntoleranceType.values());
