@@ -12,6 +12,9 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * Represents a patient
+ */
 @Setter
 @Getter
 @NoArgsConstructor
@@ -37,13 +40,18 @@ public class PatientDto {
     private int age; // Age can be calculated from dob
     private double imc; // IMC can be calculated from weight and height
 
-    // Depending on your requirements, you might want to include methods to hide certain sensitive information
+    /**
+     * Hides sensitive data for patients
+     */
     public void hideSensitiveDataForPatients() {
         this.medicalHistory = null;
         this.conditions = null;
         this.historyId = null;
     }
 
+    /**
+     * Hides sensitive data for doctors
+     */
     public void hideSensitiveDataForAdmins() {
         this.medicalHistory = null;
         this.phone = null;

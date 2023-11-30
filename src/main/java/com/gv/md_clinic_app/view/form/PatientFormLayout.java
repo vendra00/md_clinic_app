@@ -35,6 +35,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.function.Function;
 
+/**
+ * Represents the patient form layout
+ */
 @Slf4j
 @SpringComponent
 @UIScope

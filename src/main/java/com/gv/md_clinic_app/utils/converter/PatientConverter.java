@@ -22,7 +22,6 @@ public class PatientConverter {
         dto.setHabit(HabitConverter.convertToDto(patient.getHabit()));
         dto.setMedicalHistory(MedicalHistoryConverter.convertToDto(patient.getMedicalHistory()));
         dto.setConditions(ConditionConverter.convertToDto(patient.getConditions()));
-        dto.setHistoryId(patient.getHistoryId());
         dto.setWeight(patient.getWeight());
         dto.setHeight(patient.getHeight());
         dto.setBloodType(patient.getBloodType());
@@ -30,7 +29,7 @@ public class PatientConverter {
         dto.setGender(patient.getGender());
         dto.setDob(patient.getDob());
         dto.setAge(patient.getAge());
-        dto.setImc(patient.getIMC());
+        dto.setImc(patient.getBMI());
 
         checkUserRoleTypeForSensitiveContent(userRole, dto);
 
@@ -63,7 +62,6 @@ public class PatientConverter {
         patient.setPhone(patientDto.getPhone());
         patient.setEmergencyContact(EmergencyContactConverter.convertToEntity(patientDto.getEmergencyContact()));
         patient.setAddress(AddressConverter.convertToEntity(patientDto.getAddress()));
-        patient.setHistoryId(patientDto.getHistoryId());
         patient.setHabit(HabitConverter.convertToEntity(patientDto.getHabit()));
         patient.setWeight(patientDto.getWeight());
         patient.setHeight(patientDto.getHeight());

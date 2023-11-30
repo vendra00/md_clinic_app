@@ -17,4 +17,5 @@ public class MedicalHistoryDto {
     private Choice isIntolerant;
     private AllergiesDto allergies;
     private IntolerancesDto intolerances;
+    private HospitalizationDto hospitalization;
 }

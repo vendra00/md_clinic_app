@@ -7,6 +7,9 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.Data;
 
+/**
+ * Represents the medical history of a patient
+ */
 @Data
 @Embeddable
 public class MedicalHistory {
@@ -17,4 +20,6 @@ public class MedicalHistory {
     private Allergies allergies;
     @Embedded
     private Intolerances intolerances;
+    @Embedded
+    private Hospitalization hospitalization;
 }

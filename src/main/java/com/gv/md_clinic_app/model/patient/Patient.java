@@ -15,6 +15,9 @@ import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a patient
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,13 +38,17 @@ public class Patient extends Person {
     )
     @ToString.Exclude
     private Set<Condition> conditions = new HashSet<>();
-    private String historyId;
     private double weight;
     private double height;
     private BloodType bloodType;
     private Choice isOrganDonor;
     @Past
     private LocalDate dob;
+
+    /**
+     * Calculates the age of the patient
+     * @return the age of the patient
+     */
     public int getAge() {
         if (dob == null) {
             return 0;
@@ -49,7 +56,11 @@ public class Patient extends Person {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
-    public double getIMC() {
+    /**
+     * Calculates the BMI of the patient
+     * @return the BMI of the patient
+     */
+    public double getBMI() {
         if (weight == 0 || height == 0) {
             return 0;
         }
