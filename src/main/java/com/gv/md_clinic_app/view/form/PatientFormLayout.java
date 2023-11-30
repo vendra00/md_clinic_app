@@ -30,6 +30,7 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
@@ -158,7 +159,7 @@ public class PatientFormLayout extends VerticalLayout {
      * Set up the patient habits section
      * @param accordion The accordion to set up
      */
-    private void patientHabitsSectionSetUp(Accordion accordion) {
+    private void patientHabitsSectionSetUp(@NotNull Accordion accordion) {
         FormLayout patientHabitsInfoLayout = new FormLayout();
         patientHabitsInfoLayout.add(smoking, alcohol, drugs, exercise, diet, sleep, stress, caffeine, isVegan, isVegetarian, isOnMedication);
         AccordionPanel patientHabitsInfoPanel = accordion.add("Patient Habits Information", patientHabitsInfoLayout);
@@ -170,7 +171,7 @@ public class PatientFormLayout extends VerticalLayout {
      * Set up the basic patient MD section
      * @param accordion The accordion to set up
      */
-    private void basicPatientMdSectionSetUp(Accordion accordion) {
+    private void basicPatientMdSectionSetUp(@NotNull Accordion accordion) {
         FormLayout basicPatientMdInfoLayout = new FormLayout();
         basicPatientMdInfoLayout.add(historyId, bloodType, isOrganDonor, gender, height, weight);
         AccordionPanel basicPatientMdInfoPanel = accordion.add("Basic Medical Patient Information", basicPatientMdInfoLayout);
@@ -182,7 +183,7 @@ public class PatientFormLayout extends VerticalLayout {
      * Set up the secondary patient section
      * @param accordion The accordion to set up
      */
-    private void secondaryPatientSectionSetUp(Accordion accordion) {
+    private void secondaryPatientSectionSetUp(@NotNull Accordion accordion) {
         // Address section
         FormLayout addressLayout = new FormLayout();
         Span addressTitle = new Span("Patient Address");
@@ -211,7 +212,7 @@ public class PatientFormLayout extends VerticalLayout {
      * Set up the basic patient section
      * @param accordion The accordion to set up
      */
-    private void basicPatientSectionSetUp(Accordion accordion) {
+    private void basicPatientSectionSetUp(@NotNull Accordion accordion) {
         FormLayout basicInfoFormLayout = new FormLayout();
         basicInfoFormLayout.add(firstName, lastName, email, phone, dob);
         AccordionPanel basicInfoPanel = accordion.add("Basic Patient Information", basicInfoFormLayout);
@@ -223,7 +224,7 @@ public class PatientFormLayout extends VerticalLayout {
      * Set up the patient MD history section
      * @param accordion The accordion to set up
      */
-    private void patientMDHistorySectionSetUp(Accordion accordion){
+    private void patientMDHistorySectionSetUp(@NotNull Accordion accordion){
         // Address section
         FormLayout allergiesLayout = new FormLayout();
         Span allergiesTitle = new Span("Patient Allergies");
@@ -599,7 +600,7 @@ public class PatientFormLayout extends VerticalLayout {
      * @param input The string to sanitize
      * @return The sanitized string
      */
-    public String sanitizeString(String input) {
+    public String sanitizeString(@NotNull String input) {
         return input.replaceAll(Regex.STRING_SANITIZER.getDisplayString(), ""); // This regex removes anything that looks like an HTML tag
     }
 
@@ -607,7 +608,7 @@ public class PatientFormLayout extends VerticalLayout {
      * Call the register patient API
      * @param patientDto The patient DTO to send to the API
      */
-    private void callRegisterPatientApi(PatientDto patientDto) {
+    private void callRegisterPatientApi(@NotNull PatientDto patientDto) {
         log.info("Calling register patient api");
 
         //Basic Patient Information

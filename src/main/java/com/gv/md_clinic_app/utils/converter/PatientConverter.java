@@ -4,10 +4,20 @@ import com.gv.md_clinic_app.model.patient.Patient;
 import com.gv.md_clinic_app.model.dto.patient.PatientDto;
 import com.gv.md_clinic_app.model.enums.UserRole;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * This class is used to convert a Patient to a PatientDto and vice versa.
+ */
 @Slf4j
 public class PatientConverter {
-    public static PatientDto convertToDto(Patient patient, UserRole userRole) {
+    /**
+     * This method is used to convert a Patient to a PatientDto.
+     * @param patient - the Patient to be converted
+     * @param userRole - the user role
+     * @return dto - the converted PatientDto
+     */
+    public static @NotNull PatientDto convertToDto(@NotNull Patient patient, UserRole userRole) {
         log.info("Converting Patient to PatientDto");
 
         PatientDto dto = new PatientDto();
@@ -36,6 +46,11 @@ public class PatientConverter {
         return dto;
     }
 
+    /**
+     * This method is used to check the user role type and hide sensitive content.
+     * @param userRole - the user role
+     * @param dto - the PatientDto
+     */
     private static void checkUserRoleTypeForSensitiveContent(UserRole userRole, PatientDto dto) {
         log.info("Checking user role type for sensitive content");
 
@@ -50,7 +65,12 @@ public class PatientConverter {
         }
     }
 
-    public static Patient convertToEntity(PatientDto patientDto) {
+    /**
+     * This method is used to convert a PatientDto to a Patient.
+     * @param patientDto - the PatientDto to be converted
+     * @return patient - the converted Patient
+     */
+    public static @NotNull Patient convertToEntity(@NotNull PatientDto patientDto) {
         log.info("Converting PatientDto to Patient");
 
         Patient patient = new Patient();

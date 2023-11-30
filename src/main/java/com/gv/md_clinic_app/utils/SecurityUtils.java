@@ -1,6 +1,7 @@
 package com.gv.md_clinic_app.utils;
 
 import com.gv.md_clinic_app.model.enums.UserRole;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,9 +9,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * Utility class for security-related operations.
+ */
 @Component
 public class SecurityUtils {
 
+    /**
+     * Returns the role of the currently authenticated user.
+     * @return the role of the currently authenticated user.
+     */
     public static UserRole getCurrentUserRole() {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -20,7 +28,11 @@ public class SecurityUtils {
                 .orElse(UserRole.PATIENT); // Default role if none found
     }
 
-    public static Long getCurrentAuthenticatedPersonId() {
+    /**
+     * Returns the ID of the currently authenticated user.
+     * @return the ID of the currently authenticated user.
+     */
+    public static @NotNull Long getCurrentAuthenticatedPersonId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {

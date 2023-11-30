@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Form for the allergy.
+ */
 @Slf4j
 @CssImport("./styles/patient-form-styles.css")
 @Getter @Setter
@@ -24,6 +27,10 @@ class AllergyForm extends VerticalLayout {
     private final Button saveButton = new Button("Save");
     private final Button closeButton = new Button("Close");
 
+    /**
+     * Constructor for the allergy form.
+     * @param parentDialog Parent dialog.
+     */
     public AllergyForm(Dialog parentDialog) {
         log.debug("AllergyForm initialized");
         comboBoxValuesSetUp();
@@ -39,6 +46,9 @@ class AllergyForm extends VerticalLayout {
         add(allergyType, allergyName, allergyDescription, buttonLayout); // Add the button layout instead of individual buttons
     }
 
+    /**
+     * Set up the combo boxes.
+     */
     private void comboBoxValuesSetUp() {
         log.debug("Setting up the combo boxes");
         // Set the allergyType values of the combo boxes

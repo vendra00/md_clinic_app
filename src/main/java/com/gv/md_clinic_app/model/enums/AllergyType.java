@@ -2,6 +2,9 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * AllergyType enum
+ */
 @Getter
 public enum AllergyType {
     FOOD("Food"),
@@ -12,5 +15,9 @@ public enum AllergyType {
 
     private final String displayString;
 
+    /**
+     * AllergyType constructor
+     * @param displayString String
+     */
     AllergyType(String displayString) {this.displayString = displayString;}
 }

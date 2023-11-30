@@ -9,11 +9,19 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * MainLayout class is the layout for the entire application.
+ */
 @Route("")
 @PageTitle("MD Clinic")
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
+
+    /**
+     * Constructor for MainLayout class.
+     */
     public MainLayout() {
         // Initialize the content layout area
         Div content = new Div();
@@ -27,6 +35,9 @@ public class MainLayout extends AppLayout {
         createSidebar();
     }
 
+    /**
+     * Creates the sidebar (menu) for the application.
+     */
     private void createSidebar() {
         // Create a menu (sidebar) and add menu items
         Tabs tabs = new Tabs();
@@ -39,7 +50,13 @@ public class MainLayout extends AppLayout {
         addToDrawer(tabs);
     }
 
-    private Tab createTab(String text, Class<? extends Component> navigationTarget) {
+    /**
+     * Creates a tab for the sidebar (menu).
+     * @param text the text to display on the tab
+     * @param navigationTarget the view to navigate to when the tab is clicked
+     * @return the tab
+     */
+    private @NotNull Tab createTab(String text, Class<? extends Component> navigationTarget) {
         Tab tab = new Tab();
         RouterLink link = new RouterLink(text, navigationTarget);
         tab.add(link);
