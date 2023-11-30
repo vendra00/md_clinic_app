@@ -33,6 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.function.Function;
+
 @Slf4j
 @SpringComponent
 @UIScope
@@ -131,6 +133,11 @@ public class PatientFormLayout extends VerticalLayout {
     }
 
     //Layouts
+
+    /**
+     * Set up the accordion sections
+     * @param accordion The accordion to set up
+     */
     private void accordionSectionLayoutSetUp(Accordion accordion) {
         // Basic Info Section
         basicPatientSectionSetUp(accordion);
@@ -143,6 +150,11 @@ public class PatientFormLayout extends VerticalLayout {
         // Patient MD History Info Section
         patientMDHistorySectionSetUp(accordion);
     }
+
+    /**
+     * Set up the patient habits section
+     * @param accordion The accordion to set up
+     */
     private void patientHabitsSectionSetUp(Accordion accordion) {
         FormLayout patientHabitsInfoLayout = new FormLayout();
         patientHabitsInfoLayout.add(smoking, alcohol, drugs, exercise, diet, sleep, stress, caffeine, isVegan, isVegetarian, isOnMedication);
@@ -150,6 +162,11 @@ public class PatientFormLayout extends VerticalLayout {
         patientHabitsInfoPanel.setTooltipText("Patient habits information");
         patientHabitsInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
+
+    /**
+     * Set up the basic patient MD section
+     * @param accordion The accordion to set up
+     */
     private void basicPatientMdSectionSetUp(Accordion accordion) {
         FormLayout basicPatientMdInfoLayout = new FormLayout();
         basicPatientMdInfoLayout.add(historyId, bloodType, isOrganDonor, gender, height, weight);
@@ -157,6 +174,11 @@ public class PatientFormLayout extends VerticalLayout {
         basicPatientMdInfoPanel.setTooltipText("Basic medical patient information");
         basicPatientMdInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
+
+    /**
+     * Set up the secondary patient section
+     * @param accordion The accordion to set up
+     */
     private void secondaryPatientSectionSetUp(Accordion accordion) {
         // Address section
         FormLayout addressLayout = new FormLayout();
@@ -181,6 +203,11 @@ public class PatientFormLayout extends VerticalLayout {
         secondaryPatientInfoPanel.setTooltipText("Secondary patient basic information");
         secondaryPatientInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
+
+    /**
+     * Set up the basic patient section
+     * @param accordion The accordion to set up
+     */
     private void basicPatientSectionSetUp(Accordion accordion) {
         FormLayout basicInfoFormLayout = new FormLayout();
         basicInfoFormLayout.add(firstName, lastName, email, phone, dob);
@@ -188,6 +215,11 @@ public class PatientFormLayout extends VerticalLayout {
         basicInfoPanel.setTooltipText("Basic patient basic information");
         basicInfoPanel.addThemeVariants(DetailsVariant.FILLED);
     }
+
+    /**
+     * Set up the patient MD history section
+     * @param accordion The accordion to set up
+     */
     private void patientMDHistorySectionSetUp(Accordion accordion){
         // Address section
         FormLayout allergiesLayout = new FormLayout();
@@ -234,12 +266,20 @@ public class PatientFormLayout extends VerticalLayout {
         intoleranceType.setEnabled(false);
         addAllergyButton.setEnabled(false);
     }
+
+    /**
+     * Set up the save button
+     */
     private void saveBtnConfigSetUp() {
         saveButton.addClickListener(e -> registerPatient());
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     }
 
     //Validations
+
+    /**
+     * Validate the fields
+     */
     private void fieldsValidations() {
         // Validate the basic patient fields
         validateBasicPatientFields();
@@ -247,6 +287,10 @@ public class PatientFormLayout extends VerticalLayout {
         // Validate the secondary patient fields
         validateSecondaryPatientFields();
     }
+
+    /**
+     * Validate the secondary patient fields
+     */
     private void validateSecondaryPatientFields() {
         patientFormUtils.fNameAndLNameValidators(emergencyContactFirstName, emergencyContactLastName);
 
@@ -256,6 +300,10 @@ public class PatientFormLayout extends VerticalLayout {
             }
         });
     }
+
+    /**
+     * Validate the basic patient fields
+     */
     private void validateBasicPatientFields() {
         patientFormUtils.fNameAndLNameValidators(firstName, lastName);
         patientFormUtils.dateFormatter(dob);
@@ -272,6 +320,10 @@ public class PatientFormLayout extends VerticalLayout {
     }
 
     //Required Fields Setup
+
+    /**
+     * Set up the required fields
+     */
     private void requiredFieldsSetUp() {
         //Basic Patient Information
         firstName.setRequiredIndicatorVisible(true);
@@ -316,82 +368,45 @@ public class PatientFormLayout extends VerticalLayout {
         intoleranceType.setRequiredIndicatorVisible(false);
     }
 
-    //ComboBox Values Setup
-    private void comboBoxValuesSetUp() {
-        // Set the values of the combo boxes
-        bloodType.setItems(BloodType.values());
-        bloodType.setItemLabelGenerator(BloodType::getDisplayString);
-
-        // Set the Organ Donor values of the combo boxes
-        isOrganDonor.setItems(Choice.values());
-        isOrganDonor.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Gender values of the combo boxes
-        gender.setItems(Gender.values());
-        gender.setItemLabelGenerator(Gender::getDisplayString);
-
-        // Set the States values of the combo boxes
-        state.setItems(States.values());
-        state.setItemLabelGenerator(States::getDisplayString);
-
-        // Set the Smoking values of the combo boxes
-        smoking.setItems(Choice.values());
-        smoking.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Alcohol values of the combo boxes
-        alcohol.setItems(Choice.values());
-        alcohol.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Drugs values of the combo boxes
-        drugs.setItems(Choice.values());
-        drugs.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Exercise values of the combo boxes
-        exercise.setItems(Choice.values());
-        exercise.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Diet values of the combo boxes
-        diet.setItems(Choice.values());
-        diet.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the Sleep values of the combo boxes
-        sleep.setItems(Quality.values());
-        sleep.setItemLabelGenerator(Quality::getDisplayString);
-
-        // Set the Stress values of the combo boxes
-        stress.setItems(Intensity.values());
-        stress.setItemLabelGenerator(Intensity::getDisplayString);
-
-        // Set the Caffeine values of the combo boxes
-        caffeine.setItems(Choice.values());
-        caffeine.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the isVegan values of the combo boxes
-        isVegan.setItems(Choice.values());
-        isVegan.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the isVegetarian values of the combo boxes
-        isVegetarian.setItems(Choice.values());
-        isVegetarian.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the isOnMedication values of the combo boxes
-        isOnMedication.setItems(Choice.values());
-        isOnMedication.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the isAllergic values of the combo boxes
-        isAllergic.setItems(Choice.values());
-        isAllergic.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the isIntolerance values of the combo boxes
-        isIntolerance.setItems(Choice.values());
-        isIntolerance.setItemLabelGenerator(Choice::getDisplayString);
-
-        // Set the intoleranceType values of the combo boxes
-        intoleranceType.setItems(IntoleranceType.values());
-        intoleranceType.setItemLabelGenerator(IntoleranceType::getDisplayString);
+    /**
+     * Set up the combo boxes with the values from the enums
+     * @param comboBox The combo box to set up
+     * @param values The values to set up the combo box with
+     * @param displayStringGenerator The function to generate the display string for the combo box
+     * @param <T> The type of the enum
+     */
+    private <T extends Enum<T>> void setupComboBox(ComboBox<T> comboBox, T[] values, Function<T, String> displayStringGenerator) {
+        comboBox.setItems(values);
+        comboBox.setItemLabelGenerator(displayStringGenerator::apply);
     }
 
-    //Fields Feedback Binder
+    /**
+     * Set up the combo boxes with the values from the enums
+     */
+    private void comboBoxValuesSetUp() {
+        setupComboBox(bloodType, BloodType.values(), BloodType::getDisplayString);
+        setupComboBox(isOrganDonor, Choice.values(), Choice::getDisplayString);
+        setupComboBox(gender, Gender.values(), Gender::getDisplayString);
+        setupComboBox(state, States.values(), States::getDisplayString);
+        setupComboBox(smoking, Choice.values(), Choice::getDisplayString);
+        setupComboBox(alcohol, Choice.values(), Choice::getDisplayString);
+        setupComboBox(drugs, Choice.values(), Choice::getDisplayString);
+        setupComboBox(exercise, Choice.values(), Choice::getDisplayString);
+        setupComboBox(diet, Choice.values(), Choice::getDisplayString);
+        setupComboBox(sleep, Quality.values(), Quality::getDisplayString);
+        setupComboBox(stress, Intensity.values(), Intensity::getDisplayString);
+        setupComboBox(caffeine, Choice.values(), Choice::getDisplayString);
+        setupComboBox(isVegan, Choice.values(), Choice::getDisplayString);
+        setupComboBox(isVegetarian, Choice.values(), Choice::getDisplayString);
+        setupComboBox(isOnMedication, Choice.values(), Choice::getDisplayString);
+        setupComboBox(isAllergic, Choice.values(), Choice::getDisplayString);
+        setupComboBox(isIntolerance, Choice.values(), Choice::getDisplayString);
+        setupComboBox(intoleranceType, IntoleranceType.values(), IntoleranceType::getDisplayString);
+    }
+
+    /**
+     * Bind the fields to the binder
+     */
     private void fieldsFeedbackBinder() {
         //Basic Patient Information
         basicPatientInfoBinder();
@@ -405,6 +420,10 @@ public class PatientFormLayout extends VerticalLayout {
         //Patient Habits Information
         patientHabitsBinder();
     }
+
+    /**
+     * Bind the basic patient information fields to the binder
+     */
     private void basicPatientInfoBinder() {
         binder.forField(firstName)
                 .asRequired("First name is required")
@@ -430,6 +449,10 @@ public class PatientFormLayout extends VerticalLayout {
                         "Phone number must match the format +(XXX) XX-XXX-XXXX")
                 .bind(PatientDto::getPhone, PatientDto::setPhone);
     }
+
+    /**
+     * Bind the basic patient MD information fields to the binder
+     */
     private void basicPatientMdInfoBinder() {
         binder.forField(gender)
                 .asRequired("If gender is not known, please select 'Unknown'")
@@ -463,6 +486,10 @@ public class PatientFormLayout extends VerticalLayout {
                 .withValidator(weightValue -> weightValue == null || weightValue <= someMaxWeight, "Weight must be less than " + someMaxWeight)
                 .bind(PatientDto::getWeight, PatientDto::setWeight);
     }
+
+    /**
+     * Bind the secondary patient information fields to the binder
+     */
     private void secondaryPatientInfoBinder() {
         //Address Section
         binder.forField(street)
@@ -496,6 +523,10 @@ public class PatientFormLayout extends VerticalLayout {
                         "Last name can only contain letters, spaces, hyphens, and apostrophes")
                 .bind(patientDto -> patientDto.getEmergencyContact().getLastName(), (patientDto, lastNameValue) -> patientDto.getEmergencyContact().setLastName(lastNameValue));
     }
+
+    /**
+     * Bind the patient habits information fields to the binder
+     */
     private void patientHabitsBinder() {
         binder.forField(smoking)
                 .asRequired("If smoking habit is not known, please select 'Unknown'")
@@ -531,11 +562,17 @@ public class PatientFormLayout extends VerticalLayout {
                 .asRequired("If medication habit is not known, please select 'Unknown'")
                 .bind(patientDto -> patientDto.getHabit().getIsOnMedication(), (patientDto, isOnMedicationValue) -> patientDto.getHabit().setIsOnMedication(isOnMedicationValue));
     }
+
+    /**
+     * Bind the patient MD history information fields to the binder
+     */
     private void patientMDHistoryBinder() {
 
     }
 
-    //Register Patient
+    /**
+     * Register the patient
+     */
     private void registerPatient() {
         log.info("Register patient button clicked");
 
@@ -544,12 +581,29 @@ public class PatientFormLayout extends VerticalLayout {
             callRegisterPatientApi(patientDto);
         }
     }
+
+    /**
+     * Sanitize the input
+     * @param input The input to sanitize
+     * @return The sanitized input
+     */
     private String sanitizeInput(String input) {
         return sanitizeString(input);
     }
+
+    /**
+     * Sanitize the string
+     * @param input The string to sanitize
+     * @return The sanitized string
+     */
     public String sanitizeString(String input) {
         return input.replaceAll(Regex.STRING_SANITIZER.getDisplayString(), ""); // This regex removes anything that looks like an HTML tag
     }
+
+    /**
+     * Call the register patient API
+     * @param patientDto The patient DTO to send to the API
+     */
     private void callRegisterPatientApi(PatientDto patientDto) {
         log.info("Calling register patient api");
 
@@ -580,18 +634,18 @@ public class PatientFormLayout extends VerticalLayout {
         try {
             PatientDto response = restTemplate.postForObject(apiUrl, patientDto, PatientDto.class);
             // Handle the response, e.g., show a notification
-            UI.getCurrent().access(() -> {
-                Notification.show("Patient registered successfully", 3000, Notification.Position.MIDDLE);
-            });
+            UI.getCurrent().access(() -> Notification.show("Patient registered successfully", 3000, Notification.Position.MIDDLE));
         } catch (Exception e) {
             // Handle errors, e.g., show an error notification
-            UI.getCurrent().access(() -> {
-                Notification.show("Failed to register patient: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
-            });
+            UI.getCurrent().access(() -> Notification.show("Failed to register patient: " + e.getMessage(), 3000, Notification.Position.MIDDLE));
         }
     }
 
     //Supporting Methods and Forms
+
+    /**
+     * Open the allergy form dialog
+     */
     private void openAllergyFormDialog() {
         Dialog allergyDialog = new Dialog();
 
