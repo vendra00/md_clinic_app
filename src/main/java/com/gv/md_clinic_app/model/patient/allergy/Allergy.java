@@ -3,6 +3,9 @@ package com.gv.md_clinic_app.model.patient.allergy;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * Allergy entity - abstract class
+ */
 @Getter
 @Setter
 @ToString

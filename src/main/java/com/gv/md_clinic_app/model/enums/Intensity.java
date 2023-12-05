@@ -2,6 +2,9 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * Enum class for intensity of the patient's health.
+ */
 @Getter
 public enum Intensity {
     MILD("Mild"),
@@ -11,5 +14,8 @@ public enum Intensity {
 
     private final String displayString;
 
+    /**
+     * Intensity of the patient's health.
+     */
     Intensity(String displayString) {this.displayString = displayString;}
 }

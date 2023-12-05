@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Patient repository interface
+ */
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     List<Patient> findByLastName(String lastName);

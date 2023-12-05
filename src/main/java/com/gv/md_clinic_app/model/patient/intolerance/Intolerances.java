@@ -4,6 +4,9 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.Data;
 
+/**
+ * Intolerances entity - embedded in Patient
+ */
 @Data
 @Embeddable
 public class Intolerances {

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Condition repository interface
+ */
 @Repository
 public interface ConditionRepository extends JpaRepository<Condition, Long> {
     List<Condition> findByName(String name);

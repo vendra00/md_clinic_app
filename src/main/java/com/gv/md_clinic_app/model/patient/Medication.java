@@ -9,6 +9,9 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+/**
+ * Represents the medication of a patient - embedded in Patient
+ */
 @Data
 @Embeddable
 public class Medication {

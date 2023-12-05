@@ -6,6 +6,9 @@ import com.gv.md_clinic_app.model.enums.Quality;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
 
+/**
+ * Habit entity - embedded in Patient
+ */
 @Data
 @Embeddable
 public class Habit {

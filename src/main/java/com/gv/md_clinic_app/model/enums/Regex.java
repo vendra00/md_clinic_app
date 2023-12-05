@@ -2,6 +2,12 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * Regex enum class.
+ * <p>
+ * Date: May 2, 2021
+ * <p>
+ */
 @Getter
 public enum Regex {
     // Regular expression for phone number
@@ -18,6 +24,10 @@ public enum Regex {
 
     private final String displayString;
 
+    /**
+     * Constructor.
+     * @param displayString String
+     */
     Regex(String displayString) {
         this.displayString = displayString;
     }

@@ -99,6 +99,10 @@ public class PatientFormLayout extends VerticalLayout {
     private final Button saveButton = new Button("Register");
     private final Binder<PatientDto> binder = new Binder<>(PatientDto.class);
 
+    /**
+     * Constructor
+     * @param restTemplate The rest template to use
+     */
     @Autowired
     public PatientFormLayout(RestTemplate restTemplate) {
         log.info("PatientFormLayout constructor called");
@@ -673,6 +677,9 @@ public class PatientFormLayout extends VerticalLayout {
         allergyDialog.open();
     }
 
+    /**
+     * Open the intolerance form dialog
+     */
     private void openIntoleranceFormDialog() {
         Dialog intoleranceDialog = new Dialog();
 
@@ -692,5 +699,4 @@ public class PatientFormLayout extends VerticalLayout {
         intoleranceDialog.setDraggable(true);
         intoleranceDialog.open();
     }
-
 }

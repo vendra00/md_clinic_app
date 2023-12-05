@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+/**
+ * Person class is a model that represents a person.
+ */
 @Getter
 @Setter
 @ToString

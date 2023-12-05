@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Data transfer object for Habit entity.
+ */
 @Setter
 @Getter
 @NoArgsConstructor

@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+/**
+ * Doctor class is a model that represents a doctor in the clinic.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

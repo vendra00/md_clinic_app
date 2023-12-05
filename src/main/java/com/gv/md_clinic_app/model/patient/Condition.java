@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+/**
+ * Condition entity
+ */
 @Getter
 @Setter
 @NoArgsConstructor

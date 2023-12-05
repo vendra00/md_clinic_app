@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+/**
+ * Data transfer object for Address entity.
+ */
 @Setter
 @Getter
 @NoArgsConstructor

@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
- * Represents the hospitalization of a patient
+ * Represents the hospitalization of a patient - embedded in Patient
  */
 @Data
 @Embeddable

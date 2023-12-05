@@ -2,6 +2,9 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * Enum class for frequency of the patient's health.
+ */
 @Getter
 public enum Frequency {
     ONCE_A_DAY("Once a day"),
@@ -35,5 +38,9 @@ public enum Frequency {
 
     private final String displayString;
 
+    /**
+     * Frequency of the patient's health.
+     * @param displayString string
+     */
     Frequency(String displayString) {this.displayString = displayString;}
 }

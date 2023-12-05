@@ -14,18 +14,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Doctor controller.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {
 
+    /**
+     * Doctor patient service.
+     */
     private final DoctorPatientService doctorPatientService;
 
+    /**
+     * Constructor.
+     *
+     * @param doctorPatientService doctor patient service.
+     */
     @Autowired
     public DoctorController(DoctorPatientService doctorPatientService) {
         this.doctorPatientService = doctorPatientService;
     }
 
+    /**
+     * Register patient.
+     *
+     * @param patientDto patient dto.
+     * @return registered patient.
+     */
     @PostMapping("/register-patient")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<PatientDto> registerPatient(@RequestBody PatientDto patientDto) {

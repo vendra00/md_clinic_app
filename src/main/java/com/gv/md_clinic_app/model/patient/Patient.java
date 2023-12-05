@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents a patient
+ * Represents a patient - extends Person
  */
 @Getter
 @Setter

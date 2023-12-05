@@ -7,6 +7,9 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Intolerances entity - embedded in Patient
+ */
 @Data
 @Embeddable
 public class DrugIntolerances {

@@ -8,7 +8,7 @@ import jakarta.persistence.Embedded;
 import lombok.Data;
 
 /**
- * Represents the medical history of a patient
+ * Represents the medical history of a patient - embedded in Patient
  */
 @Data
 @Embeddable

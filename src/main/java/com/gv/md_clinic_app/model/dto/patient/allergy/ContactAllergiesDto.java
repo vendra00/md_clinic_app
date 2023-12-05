@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data transfer object for Allergies entity.
+ */
 @Setter
 @Getter
 @NoArgsConstructor

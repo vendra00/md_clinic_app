@@ -2,6 +2,9 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * Gender enum class.
+ */
 @Getter
 public enum Gender {
     MALE("Male"),
@@ -10,7 +13,9 @@ public enum Gender {
 
     private final String displayString;
 
-    Gender(String displayString) {
-        this.displayString = displayString;
-    }
+    /**
+     * Constructor
+     * @param displayString string
+     */
+    Gender(String displayString) {this.displayString = displayString;}
 }

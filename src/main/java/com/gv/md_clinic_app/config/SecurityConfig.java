@@ -1,5 +1,6 @@
 package com.gv.md_clinic_app.config;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,11 +10,21 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+/**
+ * Security config.
+ */
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Security filter chain.
+     * @param http http security.
+     * @return security filter chain.
+     * @throws Exception exception.
+     */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
@@ -33,8 +44,15 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    /**
+     * Configure global.
+     * @param auth authentication manager builder.
+     * @param passwordEncoder password encoder.
+     * @throws Exception exception.
+     */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
+    public void configureGlobal(@NotNull AuthenticationManagerBuilder auth, @NotNull PasswordEncoder passwordEncoder) throws Exception {
         auth
                 .inMemoryAuthentication()
                 .withUser("admin")
@@ -50,10 +68,12 @@ public class SecurityConfig {
                 .roles("PATIENT");
     }
 
+    /**
+     * Password encoder.
+     * @return password encoder.
+     */
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public PasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
 
 }
 

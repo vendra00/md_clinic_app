@@ -3,6 +3,9 @@ package com.gv.md_clinic_app.model.patient.intolerance;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * Intolerance entity - embedded in Patient
+ */
 @Getter
 @Setter
 @ToString

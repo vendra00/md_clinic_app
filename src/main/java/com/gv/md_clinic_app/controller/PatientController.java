@@ -13,16 +13,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Patient controller.
+ */
 @RestController
 @RequestMapping("/patient")
 public class PatientController {
 
+    /**
+     * Patient service.
+     */
     private final PatientSelfService patientService;
 
+    /**
+     * Constructor.
+     *
+     * @param patientService patient service.
+     */
     @Autowired
     public PatientController(PatientSelfService patientService) {this.patientService = patientService;}
 
-
+    /**
+     * Get patient details.
+     *
+     * @param id patient id.
+     * @return patient details.
+     */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<PatientDto> getPatientDetails(@PathVariable Long id) {
