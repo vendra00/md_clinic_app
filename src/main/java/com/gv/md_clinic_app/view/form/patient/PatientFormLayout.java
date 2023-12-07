@@ -118,11 +118,7 @@ public class PatientFormLayout extends VerticalLayout {
         accordionSectionLayoutSetUp(accordion);
 
         // Create a FlexLayout for the button
-        FlexLayout buttonLayout = new FlexLayout();
-        buttonLayout.setSizeFull(); // Take the full size of the parent
-        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER); // Center horizontally
-        buttonLayout.setAlignItems(FlexComponent.Alignment.CENTER); // Center vertically
-        buttonLayout.add(saveButton);
+        FlexLayout buttonLayout = getButtonLayout();
 
         requiredFieldsSetUp();
         fieldsFeedbackBinder();
@@ -131,22 +127,40 @@ public class PatientFormLayout extends VerticalLayout {
         saveBtnConfigSetUp();
 
         // Create a FlexLayout for the form and accordion
+        setUpFlexLayout(accordion, buttonLayout);
+
+        // Bind fields to the binder
+        binder.bindInstanceFields(this);
+    }
+    /**
+     * SetUp FlexLayout
+     */
+    private void setUpFlexLayout(Accordion accordion, FlexLayout buttonLayout) {
         FlexLayout formLayout = new FlexLayout();
         formLayout.setFlexDirection(FlexLayout.FlexDirection.COLUMN); // Stack children vertically
-        formLayout.setAlignItems(FlexComponent.Alignment.CENTER); // Center children horizontally
+        formLayout.setAlignItems(Alignment.CENTER); // Center children horizontally
 
         // Add the accordion and button to the form layout
         formLayout.add(accordion, buttonLayout);
 
         // Add the form layout to the main layout
         add(formLayout);
+    }
 
-        // Bind fields to the binder
-        binder.bindInstanceFields(this);
+    /**
+     * Set up the button layout
+     */
+    @NotNull
+    private FlexLayout getButtonLayout() {
+        FlexLayout buttonLayout = new FlexLayout();
+        buttonLayout.setSizeFull(); // Take the full size of the parent
+        buttonLayout.setJustifyContentMode(JustifyContentMode.CENTER); // Center horizontally
+        buttonLayout.setAlignItems(Alignment.CENTER); // Center vertically
+        buttonLayout.add(saveButton);
+        return buttonLayout;
     }
 
     //Layouts
-
     /**
      * Set up the accordion sections
      * @param accordion The accordion to set up
