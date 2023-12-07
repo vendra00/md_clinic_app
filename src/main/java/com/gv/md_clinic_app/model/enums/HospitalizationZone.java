@@ -2,6 +2,9 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * Enum for the hospitalization zone.
+ */
 @Getter
 public enum HospitalizationZone {
     ICU ("Intensive Care Unit (ICU)"),

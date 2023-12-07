@@ -2,6 +2,9 @@ package com.gv.md_clinic_app.model.enums;
 
 import lombok.Getter;
 
+/**
+ * Enum for the medication type.
+ */
 @Getter
 public enum MedicationType {
     Analgesics("Analgesics"),
