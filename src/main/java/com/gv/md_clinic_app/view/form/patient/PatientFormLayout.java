@@ -92,7 +92,7 @@ public class PatientFormLayout extends VerticalLayout {
     //Patient MD History Information Components
     private final ComboBox<Choice> isAllergic = new ComboBox<>("Has Known Allergies?");
     private final ComboBox<Choice> isIntolerance = new ComboBox<>("Has Known Intolerances?");
-    private final ComboBox<Choice> hasHopitalizations = new ComboBox<>("Has Known Hospitalizations?");
+    private final ComboBox<Choice> hasHospitalizations = new ComboBox<>("Has Known Hospitalizations?");
     private final Button addAllergyButton = new Button("Add Allergy");
     private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
     private final Button addIntoleranceButton = new Button("Add Intolerance");
@@ -252,7 +252,14 @@ public class PatientFormLayout extends VerticalLayout {
         patientMDHistoryInfoPanel.setTooltipText("Patient Medical History");
         patientMDHistoryInfoPanel.addThemeVariants(DetailsVariant.FILLED);
 
-        // Add value change listener to isAllergic ComboBox
+        changeListenerSetUp();
+
+    }
+
+    /**
+     * Change listener set up
+     */
+    private void changeListenerSetUp() {
         isAllergic.addValueChangeListener(event -> {
             // Assuming 'Choice' enum has a value 'YES'
             boolean isAllergicSelected = Choice.YES.equals(event.getValue());
@@ -273,7 +280,7 @@ public class PatientFormLayout extends VerticalLayout {
         });
 
         // Add value change listener to isIntolerance ComboBox
-        hasHopitalizations.addValueChangeListener(event -> {
+        hasHospitalizations.addValueChangeListener(event -> {
             // Assuming 'Choice' enum has a value 'YES'
             boolean isHospitalizationSelected = Choice.YES.equals(event.getValue());
             addHospitalizationButton.setEnabled(isHospitalizationSelected);
@@ -281,7 +288,6 @@ public class PatientFormLayout extends VerticalLayout {
             addHospitalizationButton.addClickListener(click -> openHospitalizationFormDialog());
             add(hospitalizationFormsLayout);
         });
-
     }
 
     /**
@@ -294,7 +300,7 @@ public class PatientFormLayout extends VerticalLayout {
         Span hospitalizationsTitle = new Span("Patient Hospitalizations");
         hospitalizationsTitle.addClassName("section-title-secondary-patient-info");
         addHospitalizationButton.setEnabled(false);
-        hospitalizationsLayout.add(hasHopitalizations, addHospitalizationButton);
+        hospitalizationsLayout.add(hasHospitalizations, addHospitalizationButton);
         return new VerticalLayout(hospitalizationsTitle, hospitalizationsLayout);
     }
 
@@ -384,14 +390,37 @@ public class PatientFormLayout extends VerticalLayout {
      * Set up the required fields
      */
     private void requiredFieldsSetUp() {
-        //Basic Patient Information
+        basicPatientInfoComponentSetUp();
+        secondaryPatienInfoComponentSetUp();
+        patientMdInfoComponentSetUp();
+        habitComponentsSetUp();
+        patientMdHistoryInfoComponentSetUp();
+    }
+
+    /**
+     * Set up the patient MD history information components
+     */
+    private void patientMdHistoryInfoComponentSetUp() {
+        isAllergic.setRequiredIndicatorVisible(true);
+        isIntolerance.setRequiredIndicatorVisible(true);
+        intoleranceType.setRequiredIndicatorVisible(false);
+    }
+
+    /**
+     * Set up the basic patient information components
+     */
+    private void basicPatientInfoComponentSetUp() {
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
         email.setRequiredIndicatorVisible(false);
         phone.setRequiredIndicatorVisible(false);
         dob.setRequiredIndicatorVisible(true);
+    }
 
-        //Secondary Patient Information
+    /**
+     * Set up the secondary patient information components
+     */
+    private void secondaryPatienInfoComponentSetUp() {
         street.setRequiredIndicatorVisible(false);
         city.setRequiredIndicatorVisible(false);
         state.setRequiredIndicatorVisible(false);
@@ -399,16 +428,24 @@ public class PatientFormLayout extends VerticalLayout {
         emergencyContactFirstName.setRequiredIndicatorVisible(false);
         emergencyContactLastName.setRequiredIndicatorVisible(false);
         emergencyContactPhone.setRequiredIndicatorVisible(false);
+    }
 
-        //Basic Patient MD Information
+    /**
+     * Set up the patient MD information components
+     */
+    private void patientMdInfoComponentSetUp() {
         bloodType.setRequiredIndicatorVisible(true);
         isOrganDonor.setRequiredIndicatorVisible(true);
         historyId.setRequiredIndicatorVisible(true);
         gender.setRequiredIndicatorVisible(true);
         height.setRequiredIndicatorVisible(false);
         weight.setRequiredIndicatorVisible(false);
+    }
 
-        //Patient Habits Information
+    /**
+     * Set up the habit components
+     */
+    private void habitComponentsSetUp() {
         smoking.setRequiredIndicatorVisible(true);
         alcohol.setRequiredIndicatorVisible(true);
         drugs.setRequiredIndicatorVisible(true);
@@ -420,11 +457,6 @@ public class PatientFormLayout extends VerticalLayout {
         isVegan.setRequiredIndicatorVisible(true);
         isVegetarian.setRequiredIndicatorVisible(true);
         isOnMedication.setRequiredIndicatorVisible(true);
-
-        //Patient MD History Information
-        isAllergic.setRequiredIndicatorVisible(true);
-        isIntolerance.setRequiredIndicatorVisible(true);
-        intoleranceType.setRequiredIndicatorVisible(false);
     }
 
     /**
@@ -434,7 +466,7 @@ public class PatientFormLayout extends VerticalLayout {
      * @param displayStringGenerator The function to generate the display string for the combo box
      * @param <T> The type of the enum
      */
-    private <T extends Enum<T>> void setupComboBox(ComboBox<T> comboBox, T[] values, Function<T, String> displayStringGenerator) {
+    private <T extends Enum<T>> void setupComboBox(@NotNull ComboBox<T> comboBox, T[] values, @NotNull Function<T, String> displayStringGenerator) {
         comboBox.setItems(values);
         comboBox.setItemLabelGenerator(displayStringGenerator::apply);
     }
@@ -461,7 +493,7 @@ public class PatientFormLayout extends VerticalLayout {
         setupComboBox(isAllergic, Choice.values(), Choice::getDisplayString);
         setupComboBox(isIntolerance, Choice.values(), Choice::getDisplayString);
         setupComboBox(intoleranceType, IntoleranceType.values(), IntoleranceType::getDisplayString);
-        setupComboBox(hasHopitalizations, Choice.values(), Choice::getDisplayString);
+        setupComboBox(hasHospitalizations, Choice.values(), Choice::getDisplayString);
     }
 
     /**
