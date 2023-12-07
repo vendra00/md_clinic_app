@@ -1,6 +1,5 @@
-package com.gv.md_clinic_app.view.form;
+package com.gv.md_clinic_app.view.form.patient;
 
-import com.gv.md_clinic_app.model.enums.AllergyType;
 import com.gv.md_clinic_app.model.enums.IntoleranceType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -13,6 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Form for the intolerance.
@@ -35,17 +35,28 @@ class IntoleranceForm extends VerticalLayout {
      */
     public IntoleranceForm(Dialog parentDialog) {
         log.debug("IntoleranceForm initialized");
+
+        // Set the form properties
         comboBoxValuesSetUp();
         closeButton.addClickListener(event -> parentDialog.close());
+
         // Layout for buttons
+        HorizontalLayout buttonLayout = getButtonLayout();
+
+        // Add all components to the form
+        add(intoleranceType, intoleranceName, intoleranceDescription, buttonLayout); // Add the button layout instead of individual buttons
+    }
+
+    /**
+     * Set up button layout.
+     */
+    private @NotNull HorizontalLayout getButtonLayout() {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.addClassName("button-layout");
         buttonLayout.setWidthFull(); // Set the width to fill the container
         buttonLayout.setJustifyContentMode(JustifyContentMode.CENTER); // Align to the end (right)
         buttonLayout.add(saveButton, closeButton); // Add both buttons to the layout
-
-        // Add all components to the form
-        add(intoleranceType, intoleranceName, intoleranceDescription, buttonLayout); // Add the button layout instead of individual buttons
+        return buttonLayout;
     }
 
     /**

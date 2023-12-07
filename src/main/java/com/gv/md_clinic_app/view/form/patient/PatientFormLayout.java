@@ -1,4 +1,4 @@
-package com.gv.md_clinic_app.view.form;
+package com.gv.md_clinic_app.view.form.patient;
 
 import com.gv.md_clinic_app.model.dto.patient.PatientDto;
 import com.gv.md_clinic_app.model.enums.*;
@@ -48,6 +48,7 @@ public class PatientFormLayout extends VerticalLayout {
     private final RestTemplate restTemplate;
     private final VerticalLayout allergyFormsLayout = new VerticalLayout();
     private final VerticalLayout intoleranceFormsLayout = new VerticalLayout();
+    private final VerticalLayout hospitalizationFormsLayout = new VerticalLayout();
     private final PatientFormUtils patientFormUtils = new PatientFormUtils();
     private final String apiUrl = "http://localhost:8080/doctors/register-patient";
 
@@ -91,9 +92,11 @@ public class PatientFormLayout extends VerticalLayout {
     //Patient MD History Information Components
     private final ComboBox<Choice> isAllergic = new ComboBox<>("Has Known Allergies?");
     private final ComboBox<Choice> isIntolerance = new ComboBox<>("Has Known Intolerances?");
+    private final ComboBox<Choice> hasHopitalizations = new ComboBox<>("Has Known Hospitalizations?");
     private final Button addAllergyButton = new Button("Add Allergy");
     private final ComboBox<IntoleranceType> intoleranceType = new ComboBox<>("Intolerance Type");
     private final Button addIntoleranceButton = new Button("Add Intolerance");
+    private final Button addHospitalizationButton = new Button("Add Hospitalization");
 
     //Control buttons and related
     private final Button saveButton = new Button("Register");
@@ -231,25 +234,18 @@ public class PatientFormLayout extends VerticalLayout {
      * @param accordion The accordion to set up
      */
     private void patientMDHistorySectionSetUp(@NotNull Accordion accordion){
-        // Address section
-        FormLayout allergiesLayout = new FormLayout();
-        Span allergiesTitle = new Span("Patient Allergies");
-        allergiesTitle.addClassName("section-title-secondary-patient-info");
-        addAllergyButton.setEnabled(false);
-        allergiesLayout.add(isAllergic, addAllergyButton);
-        VerticalLayout allergiesSection = new VerticalLayout(allergiesTitle, allergiesLayout);
 
-        // Emergency Contact section
-        FormLayout intolerancesLayout = new FormLayout();
-        Span intolerancesTitle = new Span("Patient Intolerances");
-        intolerancesTitle.addClassName("section-title-secondary-patient-info");
-        addIntoleranceButton.setEnabled(false);
-        intolerancesLayout.add(isIntolerance, addIntoleranceButton);
-        VerticalLayout intolerancesSection = new VerticalLayout(intolerancesTitle, intolerancesLayout);
+        // Patient Allergies section
+        VerticalLayout allergiesSection = getAllergiesSection();
+
+        // Patient Intolerances section
+        VerticalLayout intolerancesSection = getIntolerancesSection();
+
+        VerticalLayout hospitalizationsSection = getHospitalizationSection();
 
         // Combine both sections in a single layout
         VerticalLayout patientMDHistoryInfoFormLayout = new VerticalLayout();
-        patientMDHistoryInfoFormLayout.add(allergiesSection, intolerancesSection);
+        patientMDHistoryInfoFormLayout.add(allergiesSection, intolerancesSection, hospitalizationsSection);
 
         // Add the layout to the accordion panel
         AccordionPanel patientMDHistoryInfoPanel = accordion.add("Patient Medical History Information", patientMDHistoryInfoFormLayout);
@@ -276,6 +272,58 @@ public class PatientFormLayout extends VerticalLayout {
             add(intoleranceFormsLayout);
         });
 
+        // Add value change listener to isIntolerance ComboBox
+        hasHopitalizations.addValueChangeListener(event -> {
+            // Assuming 'Choice' enum has a value 'YES'
+            boolean isHospitalizationSelected = Choice.YES.equals(event.getValue());
+            addHospitalizationButton.setEnabled(isHospitalizationSelected);
+            // If there are other fields related to intolerances, enable/disable them here
+            addHospitalizationButton.addClickListener(click -> openHospitalizationFormDialog());
+            add(hospitalizationFormsLayout);
+        });
+
+    }
+
+    /**
+     * Get the hospitalization section
+     * @return The hospitalization section
+     */
+    @NotNull
+    private VerticalLayout getHospitalizationSection() {
+        FormLayout hospitalizationsLayout = new FormLayout();
+        Span hospitalizationsTitle = new Span("Patient Hospitalizations");
+        hospitalizationsTitle.addClassName("section-title-secondary-patient-info");
+        addHospitalizationButton.setEnabled(false);
+        hospitalizationsLayout.add(hasHopitalizations, addHospitalizationButton);
+        return new VerticalLayout(hospitalizationsTitle, hospitalizationsLayout);
+    }
+
+    /**
+     * Get the intolerances section
+     * @return The intolerances section
+     */
+    @NotNull
+    private VerticalLayout getIntolerancesSection() {
+        FormLayout intolerancesLayout = new FormLayout();
+        Span intolerancesTitle = new Span("Patient Intolerances");
+        intolerancesTitle.addClassName("section-title-secondary-patient-info");
+        addIntoleranceButton.setEnabled(false);
+        intolerancesLayout.add(isIntolerance, addIntoleranceButton);
+        return new VerticalLayout(intolerancesTitle, intolerancesLayout);
+    }
+
+    /**
+     * Get the allergies section
+     * @return The allergies section
+     */
+    @NotNull
+    private VerticalLayout getAllergiesSection() {
+        FormLayout allergiesLayout = new FormLayout();
+        Span allergiesTitle = new Span("Patient Allergies");
+        allergiesTitle.addClassName("section-title-secondary-patient-info");
+        addAllergyButton.setEnabled(false);
+        allergiesLayout.add(isAllergic, addAllergyButton);
+        return new VerticalLayout(allergiesTitle, allergiesLayout);
     }
 
     /**
@@ -413,6 +461,7 @@ public class PatientFormLayout extends VerticalLayout {
         setupComboBox(isAllergic, Choice.values(), Choice::getDisplayString);
         setupComboBox(isIntolerance, Choice.values(), Choice::getDisplayString);
         setupComboBox(intoleranceType, IntoleranceType.values(), IntoleranceType::getDisplayString);
+        setupComboBox(hasHopitalizations, Choice.values(), Choice::getDisplayString);
     }
 
     /**
@@ -698,5 +747,25 @@ public class PatientFormLayout extends VerticalLayout {
         intoleranceDialog.add(headerLayout, intoleranceForm);
         intoleranceDialog.setDraggable(true);
         intoleranceDialog.open();
+    }
+
+    private void openHospitalizationFormDialog() {
+        Dialog hospitalizationDialog = new Dialog();
+
+        H3 dialogTitle = new H3("Add Hospitalization Details");
+
+        // Layout for the header, which contains the title and the close button
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.addClassName("dialog-header");
+        headerLayout.setWidthFull();
+        headerLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        headerLayout.add(dialogTitle);
+
+        HospitalizationForm hospitalizationForm = new HospitalizationForm(hospitalizationDialog);
+
+        // Add the header and the form to the dialog
+        hospitalizationDialog.add(headerLayout, hospitalizationForm);
+        hospitalizationDialog.setDraggable(true);
+        hospitalizationDialog.open();
     }
 }

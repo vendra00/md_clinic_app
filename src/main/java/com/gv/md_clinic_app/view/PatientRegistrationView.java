@@ -1,6 +1,6 @@
 package com.gv.md_clinic_app.view;
 
-import com.gv.md_clinic_app.view.form.PatientFormLayout;
+import com.gv.md_clinic_app.view.form.patient.PatientFormLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
